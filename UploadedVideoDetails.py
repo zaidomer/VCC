@@ -11,7 +11,7 @@ class UploadedVideoDetails:
     keywords = "test"
     privacyStatus = "public"
 
-    def getVideoUploadPath(videoName):
+    def getVideoUploadPath(self,videoName):
         for file in os.listdir(videoPath + videoName)
             return file
             break
