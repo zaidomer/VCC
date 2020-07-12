@@ -2,9 +2,6 @@ import os
 import getpass
 from WebScrapeURL import ScrapeRT
 
-if __name__ == "__main__":
-    main()
-    
 def main():
     generateURL = ScrapeRT()
     generateURL.redditScrape()
@@ -16,3 +13,7 @@ def main():
         videoPath = r"C:/Users/" + checkuser + '/Documents/VCC/Today\'s Video/'
 
     print(videoPath)
+
+
+if __name__ == "__main__":
+    main()
