@@ -11,7 +11,7 @@ class ScrapeRT:
 
         redditLinks = []
         # Get the 20 top posts URLS
-        top_posts = reddit.subreddit('ValorantClips').top('day',limit=10)
+        top_posts = reddit.subreddit('ValorantClips').top('day',limit=15)
         for post in top_posts:
             redditLinks.append(post.url)
 
