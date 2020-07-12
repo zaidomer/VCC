@@ -3,14 +3,37 @@ import getpass
 from WebScrapeURL import ScrapeRT
 
 def main():
-    generateURL = ScrapeRT()
-    generateURL.redditScrape()
-    generateURL.twitchScrape()
+
     checkuser = getpass.getuser()
     if checkuser == 'zaid':
-        videoPath = r"C:/Users/" + checkuser + 'l/Documents/VCC/Today\'s Video/'
+        videoPath = r"C:\\Users\\" + checkuser + 'l\\Documents'
     else:
-        videoPath = r"C:/Users/" + checkuser + '/Documents/VCC/Today\'s Video/'
+        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
+
+    try:
+        os.mkdir(os.path.join(videoPath, 'VCC'))
+    except OSError as error:
+        pass
+
+    try:
+        os.mkdir(os.path.join(videoPath + '\\VCC', 'Today\'s Clips'))
+    except OSError as error:
+        pass
+
+    try:
+        os.mkdir(os.path.join(videoPath + '\\VCC', 'Yesterday\'s Clips'))
+    except OSError as error:
+        pass
+
+    try:
+        os.mkdir(os.path.join(videoPath + '\\VCC', 'Today\'s Upload'))
+    except OSError as error:
+         pass
+
+    #generateURL = ScrapeRT()
+    #generateURL.redditScrape()
+    #generateURL.twitchScrape()
+
 
     print(videoPath)
 
