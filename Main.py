@@ -1,6 +1,7 @@
 import os
 import getpass
 from WebScrapeURL import ScrapeRT
+from ClipDownloaderTwitch import DownTwitch
 
 def main():
 
@@ -30,12 +31,14 @@ def main():
     except OSError as error:
          pass
 
-    #generateURL = ScrapeRT()
-    #generateURL.redditScrape()
-    #generateURL.twitchScrape()
+    generateURL = ScrapeRT(20)
+    generateURL.twitchScrape()
+    print(generateURL.clipTitles)
 
+    for x in range(len(generateURL.clipTitles)):
+        downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
+        downloadMP4.scrapeMP4Url()
 
-    print(videoPath)
 
 
 if __name__ == "__main__":

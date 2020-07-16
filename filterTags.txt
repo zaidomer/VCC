@@ -86,4 +86,3 @@ Insane
 1 hp
 Flick
 broken
-
