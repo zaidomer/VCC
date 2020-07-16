@@ -34,6 +34,9 @@ pip install praw
 ```
 pip install pillow
 ```
+```
+pip install moviepy
+```
 
 Install FFmpeg and follow https://github.com/elmoiv/redvid
 
