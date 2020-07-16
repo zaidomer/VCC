@@ -2,6 +2,7 @@ import praw
 from selenium import webdriver
 from time import sleep
 
+
 class ScrapeRT:
 
     #region REDDIT
@@ -25,7 +26,7 @@ class ScrapeRT:
         driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
         sleep(10)
 
-        # Scrolls until 100 clips are loaded
+        # Scrolls until ~100 clips are loaded
         i = 1
         while i <= 50:
             links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
@@ -34,7 +35,7 @@ class ScrapeRT:
             i+=20
             sleep(2)
 
-
+        # Finds the list of titles and URLS
         links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
         titles = driver.find_elements_by_xpath("//h3[@class='tw-ellipsis tw-font-size-5']")
 
@@ -49,6 +50,7 @@ class ScrapeRT:
         for link in links:
             clipLinks.append(link.get_attribute('href'))
 
+        driver.close()
         self.twitchFilter(clipLinks,clipTitles)
     #endregion
 
