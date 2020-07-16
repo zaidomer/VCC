@@ -2,6 +2,7 @@ import os
 import getpass
 from WebScrapeURL import ScrapeRT
 from ClipDownloaderTwitch import DownTwitch
+from VideoMentions import VideoMent
 
 def main():
 
@@ -33,11 +34,13 @@ def main():
 
     generateURL = ScrapeRT(20)
     generateURL.twitchScrape()
-    print(generateURL.clipTitles)
 
     for x in range(len(generateURL.clipTitles)):
         downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
         downloadMP4.scrapeMP4Url()
+
+        imageMention = VideoMent(generateURL.clipUsers[x],generateURL.clipTitles[x])
+        imageMention.imageEditor()
 
 
 

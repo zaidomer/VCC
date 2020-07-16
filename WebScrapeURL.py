@@ -6,12 +6,14 @@ from time import sleep
 class ScrapeRT:
     clipLinks = []
     clipTitles = []
+    clipUsers = []
     clipAmnt = None
 
     def __init__(self, num):
         self.clipAmnt = num
         self.clipLinks = []
         self.clipTitles = []
+        self.clipUsers = []
 
     # region REDDIT
     def redditScrape(self):
@@ -41,6 +43,7 @@ class ScrapeRT:
         while i <= self.clipAmnt:
             links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
             titles = driver.find_elements_by_xpath("//h3[@class='tw-ellipsis tw-font-size-5']")
+            users = driver.find_elements_by_xpath("//h3[@data-a-target='preview-card-channel-link']")
             driver.execute_script('arguments[0].scrollIntoView(true);', titles[len(titles) - 1])
             i += 20
             sleep(2)
@@ -48,6 +51,7 @@ class ScrapeRT:
         # Finds the list of titles and URLS
         links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
         titles = driver.find_elements_by_xpath("//h3[@class='tw-ellipsis tw-font-size-5']")
+        users = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-channel-link']")
 
         # Gets all the titles and puts it in a list
         for title in titles:
@@ -57,13 +61,17 @@ class ScrapeRT:
         for link in links:
             self.clipLinks.append(link.get_attribute('href'))
 
+        # Gets all the users and puts it in a list
+        for user in users:
+            self.clipUsers.append(user.text)
+
         driver.close()
-        self.twitchFilter(self.clipLinks, self.clipTitles)
+        self.twitchFilter(self.clipLinks, self.clipTitles,self.clipUsers)
 
     # endregion
 
     # region Filter
-    def twitchFilter(self, clipLinks, clipTitles):
+    def twitchFilter(self, clipLinks, clipTitles,clipUsers):
         # Open and reads the text file and puts each term in a list
         with open('filterTags.txt', "r") as f:
             filterList = f.readlines()
@@ -78,9 +86,11 @@ class ScrapeRT:
             else:
                 clipTi.pop(count)
                 clipLinks.pop(count)
+                clipUsers.pop(count)
                 count -= 1
             count += 1
 
         self.clipTitles = clipTi
         self.clipLinks = clipLinks
+        self.clipUsers = clipUsers
     # endregion
