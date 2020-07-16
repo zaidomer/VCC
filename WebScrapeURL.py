@@ -11,10 +11,12 @@ class ScrapeRT:
         reddit = praw.Reddit(client_id='1Gy4zNNu1JlnIA', client_secret='1GzLnVE1fcIqZ9rrOUYyOP_Kzkk', user_agent='VCC')
 
         redditLinks = []
+        redditTitles = []
         # Get the 20 top posts URLS
         top_posts = reddit.subreddit('ValorantClips').top('day',limit=15)
         for post in top_posts:
             redditLinks.append(post.url)
+            redditTitles.append(post.title)
 
     #endregion
 
