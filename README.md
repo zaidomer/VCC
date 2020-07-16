@@ -12,11 +12,23 @@ Libraries:
 
 ```
 pip install os
+```
+```
 pip install getpass
+```
+```
 pip install selenium
+```
+```
 pip install requests
+```
+```
 pip install time
+```
+```
 pip install redvid
+```
+```
 pip install praw
 ```
 
