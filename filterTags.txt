@@ -25,6 +25,9 @@ Penta kill
 3 man
 4 man
 5 man
+3man
+4man
+5man
 Three man
 Four man
 Five man
@@ -83,6 +86,7 @@ Quick
 Frag
 Entry
 Insane
-1 hp
+hp
 Flick
 broken
+kill
