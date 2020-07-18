@@ -5,7 +5,7 @@
 # import httplib2
 # import os
 # import random
-# import sys
+import sys
 # import time
 
 # from apiclient.discovery import build
@@ -13,20 +13,23 @@
 # from apiclient.http import MediaFileUpload
 # from oauth2client.client import flow_from_clientsecrets
 # from oauth2client.file import Storage
-# from oauth2client.tools import argparser, run_flow
+#from oauth2client.tools import argparser, run_flow
 import argparse
 import http.client
 import httplib2
 import os
 import random
 import time
-# import videoDetails
+import UploadedVideoDetails
+import getpass
 
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.tools import argparser, run_flow
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from oauth2client import client # Added
@@ -62,6 +65,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 CLIENT_SECRETS_FILE = "client_secrets.json"
+GOOGLE_AUTHENTICATION = ['https://www.googleapis.com/auth/youtube.upload']
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -77,7 +81,7 @@ WARNING: Please configure OAuth 2.0
 To make this sample run you will need to populate the client_secrets.json file
 found at:
 
-   %s
+  %s
 
 with information from the API Console
 https://console.developers.google.com/
@@ -85,24 +89,19 @@ https://console.developers.google.com/
 For more information about the client_secrets.json file format, please visit:
 https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 """ % os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                   CLIENT_SECRETS_FILE))
+                                  CLIENT_SECRETS_FILE))
 
 VALID_PRIVACY_STATUSES = ("public", "private", "unlisted")
 
 
 def get_authenticated_service(args):
-  flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
-    scope=YOUTUBE_UPLOAD_SCOPE,
-    message=MISSING_CLIENT_SECRETS_MESSAGE)
-
-  storage = Storage("%s-oauth2.json" % sys.argv[0])
-  credentials = storage.get()
-
-  if credentials is None or credentials.invalid:
-    credentials = run_flow(flow, storage, args)
-
-  return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-    http=credentials.authorize(httplib2.Http()))
+  credential_path = os.path.join('./', 'credentials.json')
+  store = Storage(credential_path)
+  credentials = store.get()
+  if not credentials or credentials.invalid:
+      flow = client.flow_from_clientsecrets(CLIENT_SECRETS_FILE, GOOGLE_AUTHENTICATION)
+      credentials = tools.run_flow(flow, store)
+  return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=credentials.authorize(httplib2.Http()))
 
 def initialize_upload(youtube, options):
   tags = None
@@ -159,7 +158,7 @@ def resumable_upload(insert_request):
     except HttpError as e:
       if e.resp.status in RETRIABLE_STATUS_CODES:
         error = "A retriable HTTP error %d occurred:\n%s" % (e.resp.status,
-                                                             e.content)
+                                                            e.content)
       else:
         raise
     except RETRIABLE_EXCEPTIONS as e:
@@ -186,13 +185,18 @@ if __name__ == '__main__':
       "See https://developers.google.com/youtube/v3/docs/videoCategories/list")
   argparser.add_argument("--keywords", help="Video keywords, comma separated",
     default="")
-  argparser.add_argument("--privacyStatus", choices=VALID_PRIVACY_STATUSES,
-    default=VALID_PRIVACY_STATUSES[0], help="Video privacy status.")
+  argparser.add_argument("--privacyStatus",default=VALID_PRIVACY_STATUSES[0], help="Video privacy status.")
   args = argparser.parse_args()
 
   if not os.path.exists(args.file):
     exit("Please specify a valid file using the --file= parameter.")
 
+  # checkuser = getpass.getuser()
+  # if checkuser == 'zaid':
+  #     videoPath = r"C:/Users/" + checkuser + 'l/Documents/VCC'
+  # else:
+  #     videoPath = r"C:/Users/" + checkuser + '/Documents/VCC'
+  # args = UploadedVideoDetails.UploadedVideoDetails
   youtube = get_authenticated_service(args)
   try:
     initialize_upload(youtube, args)

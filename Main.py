@@ -1,14 +1,15 @@
 import os
 import getpass
-from WebScrapeURL import ScrapeRT
+# from WebScrapeURL import ScrapeRT
+#import YoutubeAPICommands
 
 def main():
 
     checkuser = getpass.getuser()
     if checkuser == 'zaid':
-        videoPath = r"C:\\Users\\" + checkuser + 'l\\Documents'
+        videoPath = r"C:/Users/" + checkuser + 'l/Documents'
     else:
-        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
+        videoPath = r"C:/Users/" + checkuser + '/Documents'
 
     try:
         os.mkdir(os.path.join(videoPath, 'VCC'))
