@@ -14,12 +14,14 @@ class MergeAdder:
             for char in ti:
                 if char in "<>:\"/\\|?*":
                     ti = ti.replace(char, '')
-        self.clipTitles.append(ti)
+            self.clipTitles.append(ti)
         self.clips = []
 
     def merger(self):
+        print(self.clipTitles)
         for title in self.clipTitles:
-            self.clips.append(VideoFileClip('C:\\Users\\braul\\Documents\\VCC\\Today\'s Clips\\' + title + 'Final.mp4'))
+            clip = VideoFileClip('C:\\Users\\braul\\Documents\\VCC\\Today\'s Clips\\' + title + 'Final.mp4')
+            self.clips.append(clip)
 
-        finalVideo = concatenate_videoclips(self.clips)
-        finalVideo.write_videofile('C:\\Users\\braul\\Documents\\VCC\\Today\'s Upload\\Final.mp4')
+        finalVideo = concatenate_videoclips(self.clips, method='compose')
+        finalVideo.write_videofile('C:\\Users\\braul\\Documents\\VCC\\Today\'s Upload\\Final.mp4',threads=4, bitrate="20000k",logger=None)

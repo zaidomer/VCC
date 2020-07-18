@@ -89,3 +89,4 @@ Insane
 hp
 Flick
 broken
+kill
