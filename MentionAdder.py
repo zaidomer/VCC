@@ -18,7 +18,7 @@ class MentAdder:
         ment = (mp.ImageClip('C:\\Users\\braul\\Documents\\VCC\\Today\'s Clips\\' + self.title + '.png')
                   .set_duration(6)
                   .resize(0.3)
-                  .set_position((0.05,0.75), relative=True))
+                  .set_position(("left","bottom")))
 
         ment = vfx.fadein(ment,1, initial_color=[255,255,255])
         ment = vfx.fadeout(ment,1,final_color=[255,255,255])
