@@ -8,7 +8,7 @@ This will create folders to store the data, and it will use chromedriver.exe to 
 
 ### Prerequisites
 
-Libraries:
+Libraries (Braullio):
 
 ```
 pip install os
@@ -30,6 +30,20 @@ pip install redvid
 ```
 ```
 pip install praw
+```
+
+Libraries (Zaid):
+```
+pip install --upgrade google-api-python-client
+```
+```
+pip install --upgrade google-auth-oauthlib google-auth-httplib2
+```
+```
+pip install argparse
+```
+```
+pip install python-http-client
 ```
 
 Install FFmpeg and follow https://github.com/elmoiv/redvid
