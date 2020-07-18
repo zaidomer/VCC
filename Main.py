@@ -58,9 +58,5 @@ def main():
     mergeAdd.merger()
 
 
-
-
-
-
 if __name__ == "__main__":
     main()
