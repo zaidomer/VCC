@@ -4,6 +4,7 @@ from WebScrapeURL import ScrapeRT
 from ClipDownloaderTwitch import DownTwitch
 from VideoMentions import VideoMent
 from MentionAdder import MentAdder
+from MergeVideo import MergeAdder
 from time import sleep
 
 def main():
@@ -52,6 +53,12 @@ def main():
         mentionAdd.mentionAdder()
 
         print('down')
+
+    mergeAdd = MergeAdder(generateURL.clipTitles)
+    mergeAdd.merger()
+
+
+
 
 
 
