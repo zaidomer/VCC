@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import getpass
 
 class VideoMent:
 
@@ -14,10 +15,11 @@ class VideoMent:
         self.title = self.title + '.png'
 
     def imageEditor(self):
+        checkuser = getpass.getuser()
         image = Image.open('Twitch Shoutout Label.png')
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('DIMIS___.TTF', size=125)
         (x, y) = (430, 82)
         color = 'rgb(108, 36, 152)'
         draw.text((x, y), self.username, fill=color, font=font)
-        image.save('C:\\Users\\braul\\Documents\\VCC\\Today\'s Clips\\' + self.title )
+        image.save('C:\\Users\\'+ checkuser +'\\Documents\\VCC\\Today\'s Clips\\' + self.title )

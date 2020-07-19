@@ -5,6 +5,7 @@ from ClipDownloaderTwitch import DownTwitch
 from VideoMentions import VideoMent
 from MentionAdder import MentAdder
 from MergeVideo import MergeAdder
+from RepetitionChecker import RepCheck
 from time import sleep
 
 def main():
@@ -26,19 +27,24 @@ def main():
         pass
 
     try:
-        os.mkdir(os.path.join(videoPath + '\\VCC', 'Yesterday\'s Clips'))
-    except OSError as error:
-        pass
-
-    try:
         os.mkdir(os.path.join(videoPath + '\\VCC', 'Today\'s Upload'))
     except OSError as error:
          pass
 
     generateURL = ScrapeRT(10)
     generateURL.twitchScrape()
+    checkRep = RepCheck()
+    checkRep.moveClips()
 
     for x in range(len(generateURL.clipTitles)):
+
+        if (checkRep.checkClips(generateURL.clipTitles[x])):
+            pass
+        else:
+            continue
+
+        print('down')
+
         downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
         downloadMP4.scrapeMP4Url()
 
@@ -52,10 +58,12 @@ def main():
         mentionAdd = MentAdder(generateURL.clipTitles[x])
         mentionAdd.mentionAdder()
 
-        print('down')
+        print('checking')
 
-    mergeAdd = MergeAdder(generateURL.clipTitles)
-    mergeAdd.merger()
+    # mergeAdd = MergeAdder(generateURL.clipTitles)
+    # mergeAdd.merger()
+
+    checkRep.writeNewClips(generateURL.clipTitles)
 
 
 if __name__ == "__main__":

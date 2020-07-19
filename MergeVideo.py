@@ -1,4 +1,5 @@
 from moviepy.editor import VideoFileClip, concatenate_videoclips
+import getpass
 
 class MergeAdder:
 
@@ -18,10 +19,12 @@ class MergeAdder:
         self.clips = []
 
     def merger(self):
+
+        checkuser = getpass.getuser()
         print(self.clipTitles)
         for title in self.clipTitles:
-            clip = VideoFileClip('C:\\Users\\braul\\Documents\\VCC\\Today\'s Clips\\' + title + 'Final.mp4')
+            clip = VideoFileClip('C:\\Users\\'+checkuser+'\\Documents\\VCC\\Today\'s Clips\\' + title + 'Final.mp4')
             self.clips.append(clip)
 
         finalVideo = concatenate_videoclips(self.clips, method='compose')
-        finalVideo.write_videofile('C:\\Users\\braul\\Documents\\VCC\\Today\'s Upload\\Final.mp4',threads=4, bitrate="20000k",logger=None)
+        finalVideo.write_videofile('C:\\Users\\'+checkuser+'\\Documents\\VCC\\Today\'s Upload\\Final.mp4',threads=4, bitrate="20000k",logger=None,fps=30)
