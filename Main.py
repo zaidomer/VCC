@@ -1,15 +1,19 @@
 import os
 import getpass
-# from WebScrapeURL import ScrapeRT
-#import YoutubeAPICommands
+from WebScrapeURL import ScrapeRT
+from ClipDownloaderTwitch import DownTwitch
+from VideoMentions import VideoMent
+from MentionAdder import MentAdder
+from MergeVideo import MergeAdder
+from time import sleep
 
 def main():
 
     checkuser = getpass.getuser()
     if checkuser == 'zaid':
-        videoPath = r"C:/Users/" + checkuser + 'l/Documents'
+        videoPath = r"/mnt/c/Users/" + checkuser + 'l/Documents'
     else:
-        videoPath = r"C:/Users/" + checkuser + '/Documents'
+        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
 
     try:
         os.mkdir(os.path.join(videoPath, 'VCC'))
@@ -31,12 +35,27 @@ def main():
     except OSError as error:
          pass
 
-    #generateURL = ScrapeRT()
-    #generateURL.redditScrape()
-    #generateURL.twitchScrape()
+    generateURL = ScrapeRT(10)
+    generateURL.twitchScrape()
 
+    for x in range(len(generateURL.clipTitles)):
+        downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
+        downloadMP4.scrapeMP4Url()
 
-    print(videoPath)
+        print('image')
+
+        imageMention = VideoMent(generateURL.clipUsers[x],generateURL.clipTitles[x])
+        imageMention.imageEditor()
+
+        print('mention')
+
+        mentionAdd = MentAdder(generateURL.clipTitles[x])
+        mentionAdd.mentionAdder()
+
+        print('down')
+
+    mergeAdd = MergeAdder(generateURL.clipTitles)
+    mergeAdd.merger()
 
 
 if __name__ == "__main__":
