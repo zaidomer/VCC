@@ -11,7 +11,7 @@ def main():
 
     checkuser = getpass.getuser()
     if checkuser == 'zaid':
-        videoPath = r"C:\\Users\\" + checkuser + 'l\\Documents'
+        videoPath = r"/mnt/c/Users/" + checkuser + 'l/Documents'
     else:
         videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
 
