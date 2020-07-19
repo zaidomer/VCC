@@ -10,6 +10,9 @@ This will create folders to store the data, and it will use chromedriver.exe to 
 
 Libraries (Braullio):
 
+
+Libraries:
+
 ```
 pip install os
 ```
@@ -31,6 +34,13 @@ pip install redvid
 ```
 pip install praw
 ```
+```
+pip install pillow
+```
+```
+pip install moviepy
+```
+
 
 Libraries (Zaid):
 ```
