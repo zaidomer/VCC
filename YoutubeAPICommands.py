@@ -140,10 +140,10 @@ class YoutubeAPICommands:
         time.sleep(sleep_seconds)
 
   def __createVideoDescription(self, urlGenerator):
-		description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. Thank you to all the streamers on twitch who made this possible. \n Here are links to all the clips we've used: \n"
-		for i in range (len(urlGenerator.clipLinks)):
-			description += ("\"" + urlGenerator.clipTitles[i] + "\" Uploaded by user " + urlGenerator.clipUsers[i] + " at " + urlGenerator.clipLinks[i] + "\n")
-		return description
+    description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. Thank you to all the streamers on twitch who made this possible. \n Here are links to all the clips we've used: \n"
+    for i in range (len(urlGenerator.clipLinks)):
+      description += ("\"" + urlGenerator.clipTitles[i] + "\" Uploaded by user " + urlGenerator.clipUsers[i] + " at " + urlGenerator.clipLinks[i] + "\n")
+    return description
 
   #This is the only function that should ever need to be used from main
   def uploadVideo(self, videoPath, urlGenerator):
