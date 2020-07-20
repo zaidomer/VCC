@@ -60,8 +60,8 @@ def main():
 
         print('checking')
 
-    # mergeAdd = MergeAdder(generateURL.clipTitles)
-    # mergeAdd.merger()
+    mergeAdd = MergeAdder(generateURL.clipTitles)
+    mergeAdd.merger()
 
     checkRep.writeNewClips(generateURL.clipTitles)
 
