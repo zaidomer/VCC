@@ -31,7 +31,7 @@ class DownTwitch:
     def downloadFile(self,url):
         checkuser = getpass.getuser()
         r = requests.get(url, stream=True)
-        with open('C:\\Users\\'+checkuser+'\\Documents\\VCC\\Today\'s Clips\\' + self.title, 'wb') as f:
+        with open('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)

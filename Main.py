@@ -22,14 +22,14 @@ def main():
         pass
 
     try:
-        os.mkdir(os.path.join(videoPath + '\\VCC', 'Today\'s Clips'))
+        os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Clips'))
     except OSError as error:
         pass
 
     try:
-        os.mkdir(os.path.join(videoPath + '\\VCC', 'Today\'s Upload'))
+        os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Upload'))
     except OSError as error:
-         pass
+        os.remove(videoPath + '/VCC/Today\'s Upload/Final.mp4')
 
     generateURL = ScrapeRT(10)
     generateURL.twitchScrape()
