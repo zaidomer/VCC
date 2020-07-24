@@ -24,7 +24,6 @@ class DownTwitch:
         sleep(5)
         downLink = driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/main/div[1]/div[3]/div/div/div[2]/div/div[2]/div/video')
         self.downloadFile(downLink.get_attribute("src"))
-        self.downloadFirstThumbnail(self.title)
         driver.close()
 
     # Download the files from the specific mp4 url
@@ -38,6 +37,6 @@ class DownTwitch:
 
     def downloadFirstThumbnail(self,firstVid):
         checkuser = getpass.getuser()
-        vidcap = cv2.VideoCapture('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + firstVid)
+        vidcap = cv2.VideoCapture('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
         success,image = vidcap.read()
         cv2.imwrite('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/Thumbnail.png', image)

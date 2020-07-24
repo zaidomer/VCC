@@ -19,9 +19,7 @@ class MergeAdder:
         self.clips = []
 
     def merger(self):
-
         checkuser = getpass.getuser()
-        print(self.clipTitles)
         for title in self.clipTitles:
             clip = VideoFileClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + title + 'Final.mp4')
             self.clips.append(clip)

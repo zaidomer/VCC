@@ -67,6 +67,8 @@ def main():
 
         print('checking')
 
+    downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[0])
+
     mergeAdd = MergeAdder(generateURL.clipTitles)
     mergeAdd.merger()
 
