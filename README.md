@@ -40,7 +40,9 @@ pip install pillow
 ```
 pip install moviepy
 ```
-
+```
+https://chromedriver.chromium.org/downloads
+```
 
 Libraries (Zaid):
 ```
