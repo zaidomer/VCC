@@ -37,6 +37,6 @@ class DownTwitch:
 
     def downloadFirstThumbnail(self,firstVid):
         checkuser = getpass.getuser()
-        vidcap = cv2.VideoCapture('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
+        vidcap = cv2.VideoCapture('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
         success,image = vidcap.read()
-        cv2.imwrite('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/Thumbnail.png', image)
+        cv2.imwrite('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/Thumbnail.png', image)

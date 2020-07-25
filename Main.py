@@ -35,21 +35,29 @@ def main():
             pass
 
     for filename in os.listdir(videoPath + '/VCC/Today\'s Clips'):
-        file_path = os.path.join(videoPath + '/VCC/Today\'s Clips', filename)
-        os.remove(file_path)
+       file_path = os.path.join(videoPath + '/VCC/Today\'s Clips', filename)
+       os.remove(file_path)
+
+    timeStamps= []
+    timeStamps.append(7)
 
     generateURL = ScrapeRT(10)
     generateURL.twitchScrape()
     checkRep = RepCheck()
     checkRep.moveClips()
 
+    updatedTitles = generateURL.clipTitles[:]
+    count = 0
+
+    thumbnailDone = True
+
     for x in range(len(generateURL.clipTitles)):
 
         if (checkRep.checkClips(generateURL.clipTitles[x])):
-            pass
+            count+=1
         else:
+            updatedTitles.pop(count)
             continue
-
         print('down')
 
         downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
@@ -67,12 +75,19 @@ def main():
 
         print('checking')
 
-    downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[0])
+        timeStamps.append(round(timeStamps[x] + mentionAdd.getDuration(generateURL.clipTitles[x]),2))
+        if thumbnailDone:
+            downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+            downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+        else:
+            thumbnailDone = False
 
-    mergeAdd = MergeAdder(generateURL.clipTitles)
+    mergeAdd = MergeAdder(updatedTitles)
     mergeAdd.merger()
 
-    checkRep.writeNewClips(generateURL.clipTitles)
+    checkRep.writeNewClips(updatedTitles)
+
+    print(timeStamps)
 
 
 if __name__ == "__main__":
