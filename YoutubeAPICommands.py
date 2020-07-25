@@ -76,7 +76,7 @@ class YoutubeAPICommands:
     if credentials is None or credentials.invalid:
       credentials = run_flow(flow, storage, args)
 
-    return build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
+    return build(YoutubeAPICommands.YOUTUBE_API_SERVICE_NAME, YoutubeAPICommands.YOUTUBE_API_VERSION,
       http=credentials.authorize(httplib2.Http()))
 
   def initialize_upload(self,youtube, options):

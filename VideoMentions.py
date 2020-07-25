@@ -22,4 +22,7 @@ class VideoMent:
         (x, y) = (430, 82)
         color = 'rgb(108, 36, 152)'
         draw.text((x, y), self.username, fill=color, font=font)
-        image.save('C:\\Users\\'+ checkuser +'\\Documents\\VCC\\Today\'s Clips\\' + self.title )
+        if checkuser=="zaid":
+            image.save("/mnt/c/Users/" + checkuser + 'l/Documents/VCC?Today\'s Clips/' + self.title )
+        else:
+            image.save('C:\\Users\\'+ checkuser +'\\Documents\\VCC\\Today\'s Clips\\' + self.title )
