@@ -26,3 +26,4 @@ class VideoMent:
             image.save("/mnt/c/Users/" + checkuser + 'l/Documents/VCC?Today\'s Clips/' + self.title )
         else:
             image.save('C:\\Users\\'+ checkuser +'\\Documents\\VCC\\Today\'s Clips\\' + self.title )
+

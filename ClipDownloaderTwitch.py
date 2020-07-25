@@ -2,8 +2,7 @@ from selenium import webdriver
 import requests
 from time import sleep
 import getpass
-
-
+import cv2
 
 class DownTwitch:
 
@@ -31,7 +30,13 @@ class DownTwitch:
     def downloadFile(self,url):
         checkuser = getpass.getuser()
         r = requests.get(url, stream=True)
-        with open('C:\\Users\\'+checkuser+'\\Documents\\VCC\\Today\'s Clips\\' + self.title, 'wb') as f:
+        with open('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
+
+    def downloadFirstThumbnail(self,firstVid):
+        checkuser = getpass.getuser()
+        vidcap = cv2.VideoCapture('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
+        success,image = vidcap.read()
+        cv2.imwrite('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/Thumbnail.png', image)

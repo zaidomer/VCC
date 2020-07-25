@@ -27,5 +27,6 @@ class RepCheck:
         else:
             return True
 
+        yesterday.close()
 
 
