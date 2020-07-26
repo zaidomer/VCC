@@ -38,6 +38,11 @@ class ScrapeRT:
         driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
         sleep(10)
 
+        driver.find_element_by_xpath("//div[@class='tw-align-items-center tw-core-button-icon tw-inline-flex']").click()
+        sleep(2)
+        driver.find_element_by_xpath("//div[@data-language-code='en']").click()
+        sleep(3)
+
         # Scrolls until x clips are loaded
         i = 1
         while i <= self.clipAmnt:
