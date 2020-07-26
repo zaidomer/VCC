@@ -47,6 +47,7 @@ def main():
     count = 0
 
     thumbnailDone = True
+    thumbnailTitle = ""
 
     for x in range(len(generateURL.clipTitles)):
 
@@ -73,10 +74,11 @@ def main():
         print('checking')
 
         timeStamps.append(round(timeStamps[x] + mentionAdd.getDuration(generateURL.clipTitles[x]),2))
-        if thumbnailDone:
+
+        if thumbnailDone and len((generateURL.clipTitles[x]).split())<5:
             downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
             downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
-        else:
+            thumbnailTitle = generateURL.clipTitles[x]
             thumbnailDone = False
 
     mergeAdd = MergeAdder(updatedTitles)
