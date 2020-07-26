@@ -11,10 +11,7 @@ from time import sleep
 def main():
 
     checkuser = getpass.getuser()
-    if checkuser == 'zaid':
-        videoPath = r"/mnt/c/Users/" + checkuser + 'l/Documents'
-    else:
-        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
+    videoPath = r"C:/Users/" + checkuser + '/Documents'
 
     try:
         os.mkdir(os.path.join(videoPath, 'VCC'))

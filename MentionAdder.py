@@ -1,6 +1,9 @@
+import os
+import getpass
+if getpass.getuser() == "zaid":
+    os.environ["IMAGEIO_FFMPEG_EXE"] = "/mnt/f/ffmpeg"
 import moviepy.editor as mp
 import moviepy.video.fx.all as vfx
-import getpass
 
 class MentAdder:
 
