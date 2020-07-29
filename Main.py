@@ -7,6 +7,7 @@ from MentionAdder import MentAdder
 from MergeVideo import MergeAdder
 from RepetitionChecker import RepCheck
 from time import sleep
+from TitleGenerator import TitleGen
 
 def main():
 
@@ -54,11 +55,14 @@ def main():
 
     for x in range(len(generateURL.clipTitles)):
 
+        print('checking')
+
         if (checkRep.checkClips(generateURL.clipTitles[x])):
             count+=1
         else:
             updatedTitles.pop(count)
             continue
+
         print('down')
 
         downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
@@ -74,15 +78,36 @@ def main():
         mentionAdd = MentAdder(generateURL.clipTitles[x])
         mentionAdd.mentionAdder()
 
-        print('checking')
+        print('timestamp')
 
         timeStamps.append(round(timeStamps[x] + mentionAdd.getDuration(generateURL.clipTitles[x]),2))
 
-        if thumbnailDone and len((generateURL.clipTitles[x]).split())<5:
-            downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
-            downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
-            thumbnailTitle = generateURL.clipTitles[x]
-            thumbnailDone = False
+        print('title gen')
+
+        if thumbnailDone:
+            tiGen = TitleGen()
+            if tiGen.twoWords(generateURL.clipTitles[x]) != '_':
+                downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                thumbnailTitle = tiGen.twoWords(generateURL.clipTitles[x])
+                thumbnailDone = False
+
+    for x in range(len(generateURL.clipTitles)):
+        if thumbnailDone:
+            tiGen = TitleGen()
+            if tiGen.oneWord(generateURL.clipTitles[x]) != '_':
+                downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                thumbnailTitle = tiGen.oneWord(generateURL.clipTitles[x])
+                thumbnailDone = False
+
+    if thumbnailDone:
+        downloadMP4 = DownTwitch(generateURL.clipLinks[2], generateURL.clipTitles[2])
+        downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[2])
+        tiGen = TitleGen()
+        thumbnailTitle = tiGen.fullRNG()
+
+    print(thumbnailTitle)
 
     mergeAdd = MergeAdder(updatedTitles)
     mergeAdd.merger()

@@ -87,7 +87,8 @@ class ScrapeRT:
         count = 0
         for cTitle in clipTitles:
             if any((" " + x.lower() + " ") in cTitle.lower() for x in filterList) \
-                    or any((" " + x.lower()) in cTitle.lower() for x in filterList):
+                    or any((" " + x.lower()) in cTitle.lower() for x in filterList) \
+                    or any((x.lower() + " ") in cTitle.lower() for x in filterList):
                 pass
             else:
                 clipTi.pop(count)
