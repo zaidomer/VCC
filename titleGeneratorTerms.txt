@@ -1,38 +1,3 @@
-6k
-5k
-4k
-3k
-ace
-Clutch
-Thrifty
-Flawless
-Ult
-one tap
-Grenade
-Nade
-no scope
-noscope
-no-scope
-headshot
-collateral
-1v2
-1v3
-1v4
-1v5
-Double kill
-Triple kill
-Quadra kill
-Penta kill
-Pentakill
-3 man
-4 man
-5 man
-3man
-4man
-5man
-Three man
-Four man
-Five man
 Breach
 Brimstone
 Cypher
@@ -44,12 +9,13 @@ Reyna
 Sage
 Sova
 Viper
+*
 Asscent
 Haven
 Bind
 Split
+*
 Operator
-Op
 Marshall
 Vandal
 Phantom
@@ -67,6 +33,7 @@ Frenzy
 Ghost
 Sherrif
 Knife
+*
 Iron
 Bronze
 Silver
@@ -75,24 +42,39 @@ Platinum
 Diamond
 Immortal
 Radiant
+*
 EZ
-WIN
-WTF
 Crazy
 Big Brain
 Amazing
 Best
-Nuts
-IQ
+200IQ
 Quick
-Frag
-Entry
 Insane
-hp
-Flick
-broken
-kill
-Smurf
-Toxic
-Bot
+Broken
+Clutch
+Flawless
 Noob
+Bot
+Smurf
+Lan
+*
+6K
+5K
+4K
+3K
+ace
+thrifty
+ult
+one tap
+no-scope
+headshot
+collateral
+1v2
+1v3
+1v4
+1v5 
+Double kill
+Triple kill
+Quadra kill
+Penta kill

@@ -7,90 +7,115 @@ from MentionAdder import MentAdder
 from MergeVideo import MergeAdder
 from RepetitionChecker import RepCheck
 from time import sleep
-from ThumbnailGenerator import ThumbnailGenerator
+from TitleGenerator import TitleGen
 
 def main():
 
     checkuser = getpass.getuser()
-    videoPath = r"C:/Users/" + checkuser + '/Documents'
+    if checkuser == 'zaid':
+        videoPath = r"/mnt/c/Users/" + checkuser + 'l/Documents'
+    else:
+        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
 
-    # try:
-    #     os.mkdir(os.path.join(videoPath, 'VCC'))
-    # except OSError as error:
-    #     pass
+    try:
+        os.mkdir(os.path.join(videoPath, 'VCC'))
+    except OSError as error:
+        pass
 
-    # try:
-    #     os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Clips'))
-    # except OSError as error:
-    #     pass
+    try:
+        os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Clips'))
+    except OSError as error:
+        pass
 
-    # try:
-    #     os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Upload'))
-    # except OSError as error:
-    #     try:
-    #         os.remove(videoPath + '/VCC/Today\'s Upload/Final.mp4')
-    #     except OSError as error:
-    #         pass
+    try:
+        os.mkdir(os.path.join(videoPath + '/VCC', 'Today\'s Upload'))
+    except OSError as error:
+        try:
+            os.remove(videoPath + '/VCC/Today\'s Upload/Final.mp4')
+        except OSError as error:
+            pass
 
-    # for filename in os.listdir(videoPath + '/VCC/Today\'s Clips'):
-    #    file_path = os.path.join(videoPath + '/VCC/Today\'s Clips', filename)
-    #    os.remove(file_path)
+    for filename in os.listdir(videoPath + '/VCC/Today\'s Clips'):
+       file_path = os.path.join(videoPath + '/VCC/Today\'s Clips', filename)
+       os.remove(file_path)
 
-    # timeStamps= []
-    # timeStamps.append(7)
+    timeStamps= []
+    timeStamps.append(7)
 
-    # generateURL = ScrapeRT(10)
-    # generateURL.twitchScrape()
-    # checkRep = RepCheck()
-    # checkRep.moveClips()
+    generateURL = ScrapeRT(10)
+    generateURL.twitchScrape()
+    checkRep = RepCheck()
+    checkRep.moveClips()
 
-    # updatedTitles = generateURL.clipTitles[:]
-    # count = 0
+    updatedTitles = generateURL.clipTitles[:]
+    count = 0
 
-    # thumbnailDone = True
-    # thumbnailTitle = ""
+    thumbnailDone = True
+    thumbnailTitle = ""
 
-    # for x in range(len(generateURL.clipTitles)):
+    for x in range(len(generateURL.clipTitles)):
 
-    #     if (checkRep.checkClips(generateURL.clipTitles[x])):
-    #         count+=1
-    #     else:
-    #         updatedTitles.pop(count)
-    #         continue
-    #     print('down')
+        print('checking')
 
-    #     downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
-    #     downloadMP4.scrapeMP4Url()
+        if (checkRep.checkClips(generateURL.clipTitles[x])):
+            count+=1
+        else:
+            updatedTitles.pop(count)
+            continue
 
-        # print('image')
+        print('down')
 
-        # imageMention = VideoMent(generateURL.clipUsers[x],generateURL.clipTitles[x])
-        # imageMention.imageEditor()
+        downloadMP4 = DownTwitch(generateURL.clipLinks[x],generateURL.clipTitles[x])
+        downloadMP4.scrapeMP4Url()
 
-        # print('mention')
+        print('image')
 
-        # mentionAdd = MentAdder(generateURL.clipTitles[x])
-        # mentionAdd.mentionAdder()
+        imageMention = VideoMent(generateURL.clipUsers[x],generateURL.clipTitles[x])
+        imageMention.imageEditor()
 
-        # print('checking')
+        print('mention')
 
-        # timeStamps.append(round(timeStamps[x] + mentionAdd.getDuration(generateURL.clipTitles[x]),2))
+        mentionAdd = MentAdder(generateURL.clipTitles[x])
+        mentionAdd.mentionAdder()
 
-        # if thumbnailDone and len((generateURL.clipTitles[x]).split())<5:
-        #     downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
-        #     downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
-        #     thumbnailTitle = generateURL.clipTitles[x]
-        #     thumbnailDone = False
+        print('timestamp')
 
-    # mergeAdd = MergeAdder(updatedTitles)
-    # mergeAdd.merger()
+        timeStamps.append(round(timeStamps[x] + mentionAdd.getDuration(generateURL.clipTitles[x]),2))
 
-    #checkRep.writeNewClips(updatedTitles)
+        print('title gen')
 
-    # print(timeStamps)
+        if thumbnailDone:
+            tiGen = TitleGen()
+            if tiGen.twoWords(generateURL.clipTitles[x]) != '_':
+                downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                thumbnailTitle = tiGen.twoWords(generateURL.clipTitles[x])
+                thumbnailDone = False
 
-    generateThumbnail = ThumbnailGenerator()
-    generateThumbnail.createThumbail("thumbnailTitle")
+    for x in range(len(generateURL.clipTitles)):
+        if thumbnailDone:
+            tiGen = TitleGen()
+            if tiGen.oneWord(generateURL.clipTitles[x]) != '_':
+                downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                thumbnailTitle = tiGen.oneWord(generateURL.clipTitles[x])
+                thumbnailDone = False
+
+    if thumbnailDone:
+        downloadMP4 = DownTwitch(generateURL.clipLinks[2], generateURL.clipTitles[2])
+        downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[2])
+        tiGen = TitleGen()
+        thumbnailTitle = tiGen.fullRNG()
+
+    print(thumbnailTitle)
+
+    mergeAdd = MergeAdder(updatedTitles)
+    mergeAdd.merger()
+
+    checkRep.writeNewClips(updatedTitles)
+
+    print(timeStamps)
+
 
 if __name__ == "__main__":
     main()
