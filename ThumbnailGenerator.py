@@ -13,7 +13,7 @@ class ThumbnailGenerator:
     def __init__(self):
         print("Starting thumbnail generation...")
 
-    def createThumbail(self, thumbnailTitle):
+    def createThumbnail(self, thumbnailTitle):
         #Open base images
         checkuser = getpass.getuser()
         baseImage = Image.open("C:/Users/"+checkuser+"/Documents/VCC/Today\'s Clips/Thumbnail.png")
@@ -56,7 +56,7 @@ class ThumbnailGenerator:
         #Add text
         draw = ImageDraw.Draw(baseImageCopy)
         font = ImageFont.truetype("MegaSans.ttf", 125)
-        draw.text((50,60), "clutch ace", (111,255,255), font=font)
+        draw.text((50,60),thumbnailTitle , (111,255,255), font=font)
 
         #Save Thumbnail
         print("Saving Thumbnail...")

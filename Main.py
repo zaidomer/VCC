@@ -8,7 +8,7 @@ from MergeVideo import MergeAdder
 from RepetitionChecker import RepCheck
 from time import sleep
 from ThumbnailGenerator import ThumbnailGenerator
-from titleGenerator import TitleGen
+from TitleGenerator import TitleGen
 
 def main():
 
@@ -110,8 +110,8 @@ def main():
     generateThumbnail = ThumbnailGenerator()
     generateThumbnail.createThumbnail(thumbnailTitle)
     
-    mergeAdd = MergeAdder(updatedTitles)
-    mergeAdd.merger()
+    #mergeAdd = MergeAdder(updatedTitles)
+    #mergeAdd.merger()
 
     checkRep.writeNewClips(updatedTitles)
 
