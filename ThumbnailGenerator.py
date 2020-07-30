@@ -24,20 +24,20 @@ class ThumbnailGenerator:
         #Add Secondary image on thumbnail (either map or rank)
         secondaryImageSelect = random.randint(0,1)
         if secondaryImageSelect == 0:
-            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\maps\\" + ThumbnailGenerator.maps[random.randint(0,3)] + ".png")
+            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\maps\\" + ThumbnailGenerator.maps[random.randint(0,(len(ThumbnailGenerator.maps)-1))] + ".png")
             secondaryImageWidth, secondaryImageHeight = secondaryImage.size
             resizedSecondaryImage = secondaryImage.resize((int(secondaryImageWidth*0.70), int(secondaryImageHeight*0.70)))
             resizedSecondaryImageWidth, resizedSecondaryImageHeight = resizedSecondaryImage.size
             #baseImageCopy.paste(resizedSecondaryImage, (15, int((baseImageHeight-resizedSecondaryImageHeight)/2)), resizedSecondaryImage.convert('RGBA'))
             baseImageCopy.paste(resizedSecondaryImage, (15, baseImageHeight-resizedSecondaryImageHeight-15), resizedSecondaryImage.convert('RGBA'))
         else:
-            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\ranks\\" + ThumbnailGenerator.ranks[random.randint(0,3)] + ".png")
+            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\ranks\\" + ThumbnailGenerator.ranks[random.randint(0,(len(ThumbnailGenerator.ranks)-1))] + ".png")
             secondaryImageWidth, secondaryImageHeight = secondaryImage.size
             rotatedSecondaryImage = secondaryImage.rotate(10)
             baseImageCopy.paste(rotatedSecondaryImage, (15, int((baseImageHeight-secondaryImageHeight)/2)), rotatedSecondaryImage.convert('RGBA'))
 
         #Add character
-        characterImage = Image.open(os.getcwd() + "\\ThumbnailResources\\characters\\" + ThumbnailGenerator.characterNames[random.randint(0,10)] + ".png")
+        characterImage = Image.open(os.getcwd() + "\\ThumbnailResources\\characters\\" + ThumbnailGenerator.characterNames[random.randint(0,(len(ThumbnailGenerator.characterNames)-1))] + ".png")
         characterImageWidth, characterImageHeight = characterImage.size
         baseImageCopy.paste(characterImage, (int(baseImageWidth-characterImageWidth), int(0)), characterImage.convert('RGBA'))
 

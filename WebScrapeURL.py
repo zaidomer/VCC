@@ -105,7 +105,7 @@ class ScrapeRT:
                 count -= 1
             count += 1
 
-        self.clipTitles = clipTi
-        self.clipLinks = clipLinks
-        self.clipUsers = clipUsers
+        self.clipTitles = clipTi[:3]
+        self.clipLinks = clipLinks[:3]
+        self.clipUsers = clipUsers[:3]
     # endregion
