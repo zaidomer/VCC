@@ -7,15 +7,13 @@ from MentionAdder import MentAdder
 from MergeVideo import MergeAdder
 from RepetitionChecker import RepCheck
 from time import sleep
+from ThumbnailGenerator import ThumbnailGenerator
 from TitleGenerator import TitleGen
 
 def main():
 
     checkuser = getpass.getuser()
-    if checkuser == 'zaid':
-        videoPath = r"/mnt/c/Users/" + checkuser + 'l/Documents'
-    else:
-        videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
+    videoPath = r"C:\\Users\\" + checkuser + '\\Documents'
 
     try:
         os.mkdir(os.path.join(videoPath, 'VCC'))
@@ -109,8 +107,11 @@ def main():
 
     print(thumbnailTitle)
 
-    mergeAdd = MergeAdder(updatedTitles)
-    mergeAdd.merger()
+    generateThumbnail = ThumbnailGenerator()
+    generateThumbnail.createThumbnail(thumbnailTitle)
+
+    # mergeAdd = MergeAdder(updatedTitles)
+    # mergeAdd.merger()
 
     checkRep.writeNewClips(updatedTitles)
 

@@ -17,9 +17,17 @@ class DownTwitch:
                 self.title = self.title.replace(char, '')
         self.title = self.title + '.mp4'
 
+        if getpass.getuser()=="zaid":
+            self.cDriveLocation = "C:/Users/" + getpass.getuser() + "l"
+        else:
+            self.cDriveLocation = "C:/Users/" + getpass.getuser()
+
     # Scrapes the specific clips to get the MP4 url
     def scrapeMP4Url(self):
-        driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
+        if getpass.getuser() == "zaidl":
+            driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
+        else:
+            driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
         driver.get(self.url)
         sleep(5)
         downLink = driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/main/div[1]/div[3]/div/div/div[2]/div/div[2]/div/video')

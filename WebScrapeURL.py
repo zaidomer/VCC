@@ -1,7 +1,7 @@
 import praw
 from selenium import webdriver
 from time import sleep
-
+import getpass
 
 class ScrapeRT:
     clipLinks = []
@@ -14,6 +14,11 @@ class ScrapeRT:
         self.clipLinks = []
         self.clipTitles = []
         self.clipUsers = []
+
+        if getpass.getuser()=="zaid":
+            self.cDriveLocation = "C:/Users/" + getpass.getuser() + "l"
+        else:
+            self.cDriveLocation = "C:/Users/" + getpass.getuser()
 
     # region REDDIT
     def redditScrape(self):
@@ -34,7 +39,10 @@ class ScrapeRT:
 
     def twitchScrape(self):
         # Chromedriver must be installed
-        driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
+        if getpass.getuser() == "zaidl":
+            driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
+        else:
+            driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
         driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
         sleep(10)
 
@@ -97,7 +105,7 @@ class ScrapeRT:
                 count -= 1
             count += 1
 
-        self.clipTitles = clipTi
-        self.clipLinks = clipLinks
-        self.clipUsers = clipUsers
+        self.clipTitles = clipTi[:1]
+        self.clipLinks = clipLinks[:1]
+        self.clipUsers = clipUsers[:1]
     # endregion

@@ -139,15 +139,39 @@ class YoutubeAPICommands:
         print ("Sleeping %f seconds and then retrying..." % sleep_seconds)
         time.sleep(sleep_seconds)
 
+  def __uploadThumbnail(self, videoPath):
+    # Disable OAuthlib's HTTPS verification when running locally.
+    # *DO NOT* leave this option enabled in production.
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+    # Get credentials and create an API client
+    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_CLIENT_SECRETS_FILE(
+        YoutubeAPICommands.CLIENT_SECRETS_FILE, YoutubeAPICommands.scopes)
+    credentials = flow.run_console()
+    youtube = googleapiclient.discovery.build(YoutubeAPICommands.YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, credentials=credentials)
+
+    request = youtube.thumbnails().set(
+        videoId=YoutubeAPICommands.VIDEO_ID,
+        
+        # TODO: For this request to work, you must replace "YOUR_FILE"
+        #       with a pointer to the actual file you are uploading.
+        media_body=MediaFileUpload(videoPath + "/VCC/Today\'s Upload/FinalThumbnail.png")
+    )
+    response = request.execute()
+
+    print(response)
+
   #This is the only function that should ever need to be used from main
-  def uploadVideo(self, videoPath):
+  def uploadVideo(self, videoPath, urlGenerator):
+    description = self.__createVideoDescription(urlGenerator)
+
     episodeNumberFile = open("EpisodeNumber.txt", "r+")
     episodeNumber = int(episodeNumberFile.read())
 
     print(videoPath+r"/VCC/Today's Upload/Final.mp4")
     argparser.add_argument("--file", help="Video file to upload", default=(videoPath+r"/VCC/Today's Upload/Final.mp4"))
     argparser.add_argument("--title", help="Video title", default=("Valorant Highlights Episode #" + str(episodeNumber+1)))
-    argparser.add_argument("--description", help="Video description",default="Test Description")
+    argparser.add_argument("--description", help="Video description",default=description)
     argparser.add_argument("--category", default="22",help="Numeric video category. " +"See https://developers.google.com/youtube/v3/docs/videoCategories/list")
     argparser.add_argument("--keywords", help="Video keywords, comma separated",default="Valorant, gaming, Valorant Highlights")
     argparser.add_argument("--privacyStatus",default=YoutubeAPICommands.VALID_PRIVACY_STATUSES[0], help="Video privacy status.")
@@ -156,13 +180,13 @@ class YoutubeAPICommands:
     if not os.path.exists(args.file):
       exit("Please specify a valid file using the --file= parameter.")
 
-    youtube = self.get_authenticated_service(args)
+    youtube = self.__getAuthenticatedService(args)
     try:
-      self.initialize_upload(youtube, args)
+      self.__initializeUpload(youtube, args)
+      self.__uploadThumbnail(videoPath)
       episodeNumberFile.close()
       episodeNumberFile = open("EpisodeNumber.txt", "w")
       episodeNumberFile.write(str(episodeNumber+1))
       episodeNumberFile.close()
     except HttpError as e:
       print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
-    
