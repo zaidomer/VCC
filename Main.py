@@ -109,7 +109,7 @@ def main():
 
     generateThumbnail = ThumbnailGenerator()
     generateThumbnail.createThumbnail(thumbnailTitle)
-    
+
     #mergeAdd = MergeAdder(updatedTitles)
     #mergeAdd.merger()
 

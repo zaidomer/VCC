@@ -1,7 +1,6 @@
-import os
-import getpass
 import moviepy.editor as mp
 import moviepy.video.fx.all as vfx
+import getpass
 
 class MentAdder:
 

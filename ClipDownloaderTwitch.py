@@ -18,14 +18,14 @@ class DownTwitch:
         self.title = self.title + '.mp4'
 
         if getpass.getuser()=="zaid":
-            self.cDriveLocation = "C:/Users/zaidl"
+            self.cDriveLocation = "C:/Users/" + getpass.getuser() + "l"
         else:
             self.cDriveLocation = "C:/Users/" + getpass.getuser()
 
     # Scrapes the specific clips to get the MP4 url
     def scrapeMP4Url(self):
         if getpass.getuser() == "zaidl":
-            driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver.exe")
+            driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
         else:
             driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
         driver.get(self.url)
@@ -38,12 +38,13 @@ class DownTwitch:
     def downloadFile(self,url):
         checkuser = getpass.getuser()
         r = requests.get(url, stream=True)
-        with open(self.cDriveLocation + '/Documents/VCC/Today\'s Clips/' + self.title, 'wb') as f:
+        with open('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
                 if chunk:
                     f.write(chunk)
 
     def downloadFirstThumbnail(self,firstVid):
-        vidcap = cv2.VideoCapture(self.cDriveLocation + '/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
+        checkuser = getpass.getuser()
+        vidcap = cv2.VideoCapture('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
         success,image = vidcap.read()
-        cv2.imwrite(self.cDriveLocation + '/Documents/VCC/Today\'s Clips/Thumbnail.png', image)
+        cv2.imwrite('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/Thumbnail.png', image)

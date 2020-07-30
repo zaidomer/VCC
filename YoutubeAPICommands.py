@@ -41,18 +41,20 @@ class YoutubeAPICommands:
   YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
   YOUTUBE_API_SERVICE_NAME = "youtube"
   YOUTUBE_API_VERSION = "v3"
-  VIDEO_ID = None
-  scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
   # This variable defines a message to display if the CLIENT_SECRETS_FILE is
   # missing.
   MISSING_CLIENT_SECRETS_MESSAGE = """
   WARNING: Please configure OAuth 2.0
+
   To make this sample run you will need to populate the client_secrets.json file
   found at:
+
     %s
+
   with information from the API Console
   https://console.developers.google.com/
+
   For more information about the client_secrets.json file format, please visit:
   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
   """ % os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -63,7 +65,7 @@ class YoutubeAPICommands:
   def __init__(self):
     print("Youtube API Starting...")
 
-  def __getAuthenticatedService(self,args):
+  def get_authenticated_service(self,args):
     flow = flow_from_clientsecrets(YoutubeAPICommands.CLIENT_SECRETS_FILE,
       scope=YoutubeAPICommands.YOUTUBE_UPLOAD_SCOPE,
       message=YoutubeAPICommands.MISSING_CLIENT_SECRETS_MESSAGE)
@@ -74,10 +76,10 @@ class YoutubeAPICommands:
     if credentials is None or credentials.invalid:
       credentials = run_flow(flow, storage, args)
 
-    return build(YoutubeAPICommands.YOUTUBE_API_SERVICE_NAME, YoutubeAPICommands.YOUTUBE_API_VERSION,
+    return build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
       http=credentials.authorize(httplib2.Http()))
 
-  def __initializeUpload(self,youtube, options):
+  def initialize_upload(self,youtube, options):
     tags = None
     if options.keywords:
       tags = options.keywords.split(",")
@@ -100,11 +102,11 @@ class YoutubeAPICommands:
       media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True)
     )
 
-    self.__resumableUpload(insert_request)
+    self.resumable_upload(insert_request)
 
   # This method implements an exponential backoff strategy to resume a
   # failed upload.
-  def __resumableUpload(self,insert_request):
+  def resumable_upload(self,insert_request):
     response = None
     error = None
     retry = 0
@@ -114,7 +116,6 @@ class YoutubeAPICommands:
         status, response = insert_request.next_chunk()
         if response is not None:
           if 'id' in response:
-            YoutubeAPICommands.VIDEO_ID = response['id']
             print ("Video id '%s' was successfully uploaded." % response['id'])
           else:
             exit("The upload failed with an unexpected response: %s" % response)
@@ -137,12 +138,6 @@ class YoutubeAPICommands:
         sleep_seconds = random.random() * max_sleep
         print ("Sleeping %f seconds and then retrying..." % sleep_seconds)
         time.sleep(sleep_seconds)
-
-  def __createVideoDescription(self, urlGenerator):
-    description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. Thank you to all the streamers on twitch who made this possible. \n Here are links to all the clips we've used: \n"
-    for i in range (len(urlGenerator.clipLinks)):
-      description += ("\"" + urlGenerator.clipTitles[i] + "\" Uploaded by user " + urlGenerator.clipUsers[i] + " at " + urlGenerator.clipLinks[i] + "\n")
-    return description
 
   def __uploadThumbnail(self, videoPath):
     # Disable OAuthlib's HTTPS verification when running locally.
