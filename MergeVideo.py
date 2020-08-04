@@ -1,4 +1,4 @@
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy.editor import VideoFileClip, concatenate_videoclips, CompositeVideoClip, transfx
 import getpass
 
 class MergeAdder:
@@ -26,5 +26,6 @@ class MergeAdder:
             self.clips.append(clip)
         self.clips.append(VideoFileClip('outro.mp4'))
 
-        finalVideo = concatenate_videoclips(self.clips, method='compose')
+        finalCLip = [CompositeVideoClip([clip.fx(transfx.slide_in, 0.2, 'bottom')]) for clip in self.clips]
+        finalVideo = concatenate_videoclips(finalCLip, method='compose')
         finalVideo.write_videofile('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Upload/Final.mp4',threads=4, bitrate="20000k",fps=30)

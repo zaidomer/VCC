@@ -55,7 +55,7 @@ class ThumbnailGenerator:
 
         #Add text
         draw = ImageDraw.Draw(baseImageCopy)
-        font = ImageFont.truetype("MegaSans.ttf", 125)
+        font = ImageFont.truetype("MegaSans1.ttf", 125)
         draw.text((50,60), thumbnailTitle.lower(), (111,255,255), font=font)
 
         #Save Thumbnail

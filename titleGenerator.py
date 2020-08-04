@@ -212,6 +212,7 @@ class TitleGen():
         elif desc == 2:
             des = self.maps[random.randint(0, len(self.maps)-1)].capitalize()
             des2 = 'in ' + des
+            name = des
         else:
             des = self.guns[random.randint(0, len(self.guns)-1)].capitalize()
             des2 = 'w/' + des

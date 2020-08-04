@@ -110,8 +110,8 @@ def main():
     generateThumbnail = ThumbnailGenerator()
     generateThumbnail.createThumbnail(thumbnailTitle)
 
-    # mergeAdd = MergeAdder(updatedTitles)
-    # mergeAdd.merger()
+    mergeAdd = MergeAdder(updatedTitles)
+    mergeAdd.merger()
 
     checkRep.writeNewClips(updatedTitles)
 

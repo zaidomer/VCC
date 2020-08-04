@@ -1,5 +1,6 @@
 import moviepy.editor as mp
 import moviepy.video.fx.all as vfx
+from moviepy.editor import *
 import getpass
 
 class MentAdder:
@@ -16,7 +17,8 @@ class MentAdder:
     def mentionAdder(self):
 
         checkuser = getpass.getuser()
-        video = mp.VideoFileClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.mp4')
+        video1 = mp.VideoFileClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.mp4')
+        video = video1.fx(afx.audio_normalize).fx(afx.volumex, 0.6)
 
         ment = (mp.ImageClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.png')
                   .set_duration(6)
