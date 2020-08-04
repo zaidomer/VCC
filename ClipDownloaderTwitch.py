@@ -1,4 +1,9 @@
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+
 import requests
 from time import sleep
 import getpass
@@ -28,8 +33,18 @@ class DownTwitch:
             driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
         else:
             driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
-        driver.get(self.url)
-        sleep(5)
+
+        while True:
+            driver.get(self.url)
+            sleep(5)
+            try:
+                element_present = EC.presence_of_element_located((By.ID, 'main'))
+                WebDriverWait(driver,5).until(element_present)
+            except TimeoutException:
+                pass
+            finally:
+                break
+
         downLink = driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/main/div[1]/div[3]/div/div/div[2]/div/div[2]/div/video')
         self.downloadFile(downLink.get_attribute("src"))
         driver.close()

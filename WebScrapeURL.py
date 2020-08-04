@@ -1,5 +1,9 @@
 import praw
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from time import sleep
 import getpass
 
@@ -43,8 +47,17 @@ class ScrapeRT:
             driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
         else:
             driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
-        driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
-        sleep(10)
+
+        while True:
+            driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
+            sleep(10)
+            try:
+                element_present = EC.presence_of_element_located((By.ID, 'main'))
+                WebDriverWait(driver,5).until(element_present)
+            except TimeoutException:
+                pass
+            finally:
+                break
 
         driver.find_element_by_xpath("//div[@class='tw-align-items-center tw-core-button-icon tw-inline-flex']").click()
         sleep(2)
