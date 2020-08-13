@@ -79,7 +79,7 @@ class YoutubeAPICommands:
     return build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
       http=credentials.authorize(httplib2.Http()))
 
-  def initialize_upload(self,youtube, options):
+  def __initialize_upload(self,youtube, options):
     tags = None
     if options.keywords:
       tags = options.keywords.split(",")
@@ -106,7 +106,7 @@ class YoutubeAPICommands:
 
   # This method implements an exponential backoff strategy to resume a
   # failed upload.
-  def resumable_upload(self,insert_request):
+  def __resumable_upload(self,insert_request):
     response = None
     error = None
     retry = 0
@@ -161,7 +161,7 @@ class YoutubeAPICommands:
 
     print(response)
 
-  def createVideoDescription(self, urlGenerator, timeStamps):
+  def __createVideoDescription(self, urlGenerator, timeStamps):
     description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. If you own a clip we have used and would not like your content to be used by us, contact us and we will prevent it from happening again. Thank you to all the streamers on Twitch who made this possible. \nHere are links to all the clips we've used: \n"
     count = 0
     for i in range (len(urlGenerator.clipLinks)):
@@ -174,8 +174,8 @@ class YoutubeAPICommands:
 
       description += ("[" + str(minutes) + ":" + secondsString + "] " "\"" + urlGenerator.clipTitles[i] + "\" Content by Twitch streamer \"" + urlGenerator.clipUsers[i].capitalize() + "\" at " + urlGenerator.clipLinks[i] + "\n")
       count+=1
-    description += "This channel is fully automated, from creating the videos to the description you are reading right now. The entire process is controlled by our code. Special thanks to GLOOMSHOT for the inspiration.\n\n"
-    description += "INTRO AND OUTRO \nCredit to tiziano12122 for our into template at https://panzoid.com/creations/335902 \nCredit to KrissirK for our outro template at https://panzoid.com/creations/334842"
+    description += "This channel is fully automated, from creating the videos to the description you are reading right now. The entire process is controlled by our code. Special thanks to Gloomshot for the inspiration.\n\n"
+    description += "INTRO AND OUTRO \nCredit to tiziano12122 for our into template at https://panzoid.com/creations/335902 \nCredit to KrissirK for our outro template at https://panzoid.com/creations/334842\n\n"
     description += "MUSIC LINKS \nintro: https://youtu.be/QF08nvtHHCY \noutro: https://youtu.be/tHP9cOnS1nQ"
     return description
 
@@ -200,6 +200,7 @@ class YoutubeAPICommands:
 
     youtube = self.__getAuthenticatedService(args)
     try:
+      print("Video description: \n" + description + "\n\n")
       self.__initializeUpload(youtube, args)
       self.__uploadThumbnail(videoPath)
       episodeNumberFile.close()

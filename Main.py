@@ -117,9 +117,8 @@ def main():
     checkRep.writeNewClips(updatedTitles)
     print(timeStamps)
 
-    videoUploader = YoutubeAPICommands()
-    thing = videoUploader.createVideoDescription(generateURL, timeStamps)
-    print(thing)
+    # videoUploader = YoutubeAPICommands()
+    # videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
 if __name__ == "__main__":
     main()
