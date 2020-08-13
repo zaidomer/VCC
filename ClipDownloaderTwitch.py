@@ -45,7 +45,7 @@ class DownTwitch:
             finally:
                 break
 
-        downLink = driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/main/div[1]/div[3]/div/div/div[2]/div/div[2]/div/video')
+        downLink = driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div/main/div[2]/div[3]/div/div/div[2]/div/div[2]/div/video')
         self.downloadFile(downLink.get_attribute("src"))
         driver.close()
 
