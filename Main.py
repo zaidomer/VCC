@@ -9,6 +9,7 @@ from RepetitionChecker import RepCheck
 from time import sleep
 from ThumbnailGenerator import ThumbnailGenerator
 from TitleGenerator import TitleGen
+from YoutubeAPICommands import YoutubeAPICommands
 
 def main():
 
@@ -110,13 +111,14 @@ def main():
     generateThumbnail = ThumbnailGenerator()
     generateThumbnail.createThumbnail(thumbnailTitle)
 
-    mergeAdd = MergeAdder(updatedTitles)
-    mergeAdd.merger()
+    # mergeAdd = MergeAdder(updatedTitles)
+    # mergeAdd.merger()
 
     checkRep.writeNewClips(updatedTitles)
-
     print(timeStamps)
 
+    # videoUploader = YoutubeAPICommands()
+    # videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
 if __name__ == "__main__":
     main()
