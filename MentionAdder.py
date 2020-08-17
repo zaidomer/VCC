@@ -33,6 +33,9 @@ class MentAdder:
         final.close()
 
     def getDuration(self,clipTitle):
+        for char in clipTitle:
+            if char in "<>:\"/\\|?*":
+                clipTitle = clipTitle.replace(char, '')
         checkuser = getpass.getuser()
         video = mp.VideoFileClip('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/' + clipTitle + 'Final.mp4')
         dur = video.duration

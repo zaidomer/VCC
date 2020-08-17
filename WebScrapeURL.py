@@ -72,7 +72,7 @@ class ScrapeRT:
             users = driver.find_elements_by_xpath("//h3[@data-a-target='preview-card-channel-link']")
             driver.execute_script('arguments[0].scrollIntoView(true);', titles[len(titles) - 1])
             i += 20
-            sleep(2)
+            sleep(30)
 
         # Finds the list of titles and URLS
         links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
@@ -118,7 +118,7 @@ class ScrapeRT:
                 count -= 1
             count += 1
 
-        self.clipTitles = clipTi[:]
-        self.clipLinks = clipLinks[:]
-        self.clipUsers = clipUsers[:]
+        self.clipTitles = clipTi[:3]
+        self.clipLinks = clipLinks[:3]
+        self.clipUsers = clipUsers[:3]
     # endregion

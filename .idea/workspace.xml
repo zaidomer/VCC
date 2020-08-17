@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d6795421-6c9a-42b1-9bd3-9f6d1919c901" name="Default Changelist" comment="" />
+    <list default="true" id="d6795421-6c9a-42b1-9bd3-9f6d1919c901" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EpisodeNumber.txt" beforeDir="false" afterPath="$PROJECT_DIR$/EpisodeNumber.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MentionAdder.py" beforeDir="false" afterPath="$PROJECT_DIR$/MentionAdder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Today.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Today.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebScrapeURL.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebScrapeURL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Yesterday.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Yesterday.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YoutubeAPICommands.py" beforeDir="false" afterPath="$PROJECT_DIR$/YoutubeAPICommands.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py-oauth2.json" beforeDir="false" afterPath="$PROJECT_DIR$/main.py-oauth2.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +29,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RollbackMusicAlt/slippiMusic.py" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -37,5 +49,9 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="586" y="218" key="#Inspections/0.0.1920.1080/-1920.-109.1920.1200@0.0.1920.1080" timestamp="1596489495469" />
+    <state x="740" y="294" key="FileChooserDialogImpl" timestamp="1597427520655">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="740" y="294" key="FileChooserDialogImpl/0.0.1920.1080/-1920.-109.1920.1200@0.0.1920.1080" timestamp="1597427520655" />
   </component>
 </project>

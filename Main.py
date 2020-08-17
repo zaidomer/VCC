@@ -39,15 +39,17 @@ def main():
        os.remove(file_path)
 
     timeStamps= []
-    timeStamps.append(7)
+    timeStamps.append(6)
 
-    generateURL = ScrapeRT(10)
+    generateURL = ScrapeRT(100)
     generateURL.twitchScrape()
     checkRep = RepCheck()
     checkRep.moveClips()
 
     updatedTitles = generateURL.clipTitles[:]
     count = 0
+
+    print(len(generateURL.clipTitles))
 
     thumbnailDone = True
     thumbnailTitle = ""
@@ -90,15 +92,23 @@ def main():
                 downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
                 thumbnailTitle = tiGen.twoWords(generateURL.clipTitles[x])
                 thumbnailDone = False
+            elif tiGen.oneWord(generateURL.clipTitles[x]) != '_':
+                    downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                    downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                    thumbnailTitle = tiGen.oneWord(generateURL.clipTitles[x])
+                    thumbnailDone = False
+            else:
+                pass
 
-    for x in range(len(generateURL.clipTitles)):
-        if thumbnailDone:
-            tiGen = TitleGen()
-            if tiGen.oneWord(generateURL.clipTitles[x]) != '_':
-                downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
-                downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
-                thumbnailTitle = tiGen.oneWord(generateURL.clipTitles[x])
-                thumbnailDone = False
+    if thumbnailDone:
+        for x in range(len(generateURL.clipTitles)):
+            if thumbnailDone:
+                tiGen = TitleGen()
+                if tiGen.oneWord(generateURL.clipTitles[x]) != '_':
+                    downloadMP4 = DownTwitch(generateURL.clipLinks[x], generateURL.clipTitles[x])
+                    downloadMP4.downloadFirstThumbnail(generateURL.clipTitles[x])
+                    thumbnailTitle = tiGen.oneWord(generateURL.clipTitles[x])
+                    thumbnailDone = False
 
     if thumbnailDone:
         downloadMP4 = DownTwitch(generateURL.clipLinks[2], generateURL.clipTitles[2])
@@ -111,14 +121,14 @@ def main():
     generateThumbnail = ThumbnailGenerator()
     generateThumbnail.createThumbnail(thumbnailTitle)
 
-    # mergeAdd = MergeAdder(updatedTitles)
-    # mergeAdd.merger()
+    mergeAdd = MergeAdder(updatedTitles)
+    mergeAdd.merger()
 
     checkRep.writeNewClips(updatedTitles)
     print(timeStamps)
 
-    # videoUploader = YoutubeAPICommands()
-    # videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
+    videoUploader = YoutubeAPICommands()
+    videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
 if __name__ == "__main__":
     main()

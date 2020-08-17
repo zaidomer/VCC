@@ -65,7 +65,7 @@ class YoutubeAPICommands:
   def __init__(self):
     print("Youtube API Starting...")
 
-  def get_authenticated_service(self,args):
+  def __getAuthenticatedService(self,args):
     flow = flow_from_clientsecrets(YoutubeAPICommands.CLIENT_SECRETS_FILE,
       scope=YoutubeAPICommands.YOUTUBE_UPLOAD_SCOPE,
       message=YoutubeAPICommands.MISSING_CLIENT_SECRETS_MESSAGE)
@@ -79,7 +79,7 @@ class YoutubeAPICommands:
     return build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
       http=credentials.authorize(httplib2.Http()))
 
-  def __initialize_upload(self,youtube, options):
+  def __initializeUpload(self,youtube, options):
     tags = None
     if options.keywords:
       tags = options.keywords.split(",")
@@ -102,11 +102,11 @@ class YoutubeAPICommands:
       media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True)
     )
 
-    self.resumable_upload(insert_request)
+    self.__resumableUpload(insert_request)
 
   # This method implements an exponential backoff strategy to resume a
   # failed upload.
-  def __resumable_upload(self,insert_request):
+  def __resumableUpload(self,insert_request):
     response = None
     error = None
     retry = 0
