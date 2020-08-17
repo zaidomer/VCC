@@ -58,6 +58,9 @@ pip install argparse
 pip install python-http-client
 ```
 ```
+pip3 install --upgrade oauth2client
+```
+```
 pip install opencv-python
 ``
 Install FFmpeg and follow https://github.com/elmoiv/redvid
