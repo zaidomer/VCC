@@ -40,20 +40,22 @@ class TitleGen():
     def fullRNG(self):
         self.readText()
         firstWord = choice([True, False])
-        lastWord = choice([True, False])
         last = ''
-        first = self.descriptive[random.randint(0, len(self.descriptive)-1)].capitalize()
+        first = ''
         if firstWord:
-            firstWord3 = random.randint(0, 3)
+            firstWord3 = random.randint(0, 4)
             if firstWord3 == 0:
                 first = self.agents[random.randint(0, len(self.agents)-1)].capitalize()
             elif firstWord3 == 1:
                 first = self.maps[random.randint(0, len(self.maps)-1)].capitalize()
             elif firstWord3 == 2:
                 first = self.guns[random.randint(0, len(self.guns)-1)].capitalize()
-            else:
+            elif firstWord3 == 3:
                 first = self.ranks[random.randint(0, len(self.ranks)-1)].capitalize()
-        elif lastWord:
+            else:
+                first = self.descriptive[random.randint(0, len(self.descriptive)-1)].capitalize()
+            first = first + " "
+        else:
             lastWord3 = random.randint(0, 3)
             if lastWord3 == 0:
                 last = 'w/' + self.agents[random.randint(0, len(self.agents)-1)].capitalize()
@@ -63,13 +65,11 @@ class TitleGen():
                 last = 'w/' + self.guns[random.randint(0, len(self.guns)-1)].capitalize()
             else:
                 last = 'in ' + self.ranks[random.randint(0, len(self.ranks)-1)].capitalize()
+            last = " " + last
 
         verb = self.verbs[random.randint(0, len(self.verbs)-1)].capitalize()
 
-        if (len(first.split())>=2) or (len(verb.split())>=2):
-            last = ''
-
-        return(f'{first} {verb} {last}')
+        return(f'{first}{verb}{last}')
 
     def twoWords(self,title):
         self.readText()
@@ -127,6 +127,7 @@ class TitleGen():
                 getVerb = True
                 break
 
+#Fix so that verb is used in generation
         if [getFirst,getVerb,getdescriptive].count(True) > 1:
             if getFirst and getVerb:
                 if choice([True, False]):
@@ -218,7 +219,6 @@ class TitleGen():
             des2 = 'w/' + des
             name = des
 
-
         if getFirst:
             rng = random.randint(0, 2)
             if rng == 0:
@@ -243,4 +243,3 @@ class TitleGen():
                 return(f'{des1} {word}')
         else:
             return('_')
-
