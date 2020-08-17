@@ -5,6 +5,9 @@ import os
 import random
 import time
 import sys
+import googleapiclient.discovery
+import googleapiclient.errors
+
 # import videoDetails
 
 import google.oauth2.credentials
@@ -15,6 +18,7 @@ from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from oauth2client.tools import argparser, run_flow
 from oauth2client.client import flow_from_clientsecrets
+from googleapiclient.http import MediaFileUpload
 
 from oauth2client import client 
 from oauth2client import tools 
@@ -65,7 +69,7 @@ class YoutubeAPICommands:
   def __init__(self):
     print("Youtube API Starting...")
 
-  def get_authenticated_service(self,args):
+  def __getAuthenticatedService(self,args):
     flow = flow_from_clientsecrets(YoutubeAPICommands.CLIENT_SECRETS_FILE,
       scope=YoutubeAPICommands.YOUTUBE_UPLOAD_SCOPE,
       message=YoutubeAPICommands.MISSING_CLIENT_SECRETS_MESSAGE)
@@ -79,7 +83,7 @@ class YoutubeAPICommands:
     return build(self.YOUTUBE_API_SERVICE_NAME, self.YOUTUBE_API_VERSION,
       http=credentials.authorize(httplib2.Http()))
 
-  def __initialize_upload(self,youtube, options):
+  def __initializeUpload(self,youtube, options):
     tags = None
     if options.keywords:
       tags = options.keywords.split(",")
@@ -102,11 +106,11 @@ class YoutubeAPICommands:
       media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True)
     )
 
-    self.resumable_upload(insert_request)
+    self.__resumableUpload(insert_request)
 
   # This method implements an exponential backoff strategy to resume a
   # failed upload.
-  def __resumable_upload(self,insert_request):
+  def __resumableUpload(self,insert_request):
     response = None
     error = None
     retry = 0
@@ -117,10 +121,11 @@ class YoutubeAPICommands:
         if response is not None:
           if 'id' in response:
             print ("Video id '%s' was successfully uploaded." % response['id'])
+            YoutubeAPICommands.VIDEO_ID = response['id']
           else:
             exit("The upload failed with an unexpected response: %s" % response)
       except HttpError as e:
-        if e.resp.status in RETRIABLE_STATUS_CODES:
+        if e.resp.status in YoutubeAPICommands.RETRIABLE_STATUS_CODES:
           error = "A retriable HTTP error %d occurred:\n%s" % (e.resp.status,
                                                               e.content)
         else:
@@ -139,18 +144,13 @@ class YoutubeAPICommands:
         print ("Sleeping %f seconds and then retrying..." % sleep_seconds)
         time.sleep(sleep_seconds)
 
-  def __uploadThumbnail(self, videoPath):
+  def __uploadThumbnail(self, videoPath, youtubeAuthenticator):
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+    #os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+    print("Uploading Thumbnail...")
 
-    # Get credentials and create an API client
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_CLIENT_SECRETS_FILE(
-        YoutubeAPICommands.CLIENT_SECRETS_FILE, YoutubeAPICommands.scopes)
-    credentials = flow.run_console()
-    youtube = googleapiclient.discovery.build(YoutubeAPICommands.YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, credentials=credentials)
-
-    request = youtube.thumbnails().set(
+    request = youtubeAuthenticator.thumbnails().set(
         videoId=YoutubeAPICommands.VIDEO_ID,
         
         # TODO: For this request to work, you must replace "YOUR_FILE"
@@ -160,9 +160,10 @@ class YoutubeAPICommands:
     response = request.execute()
 
     print(response)
+    print("\nThumbnail Uploaded!")
 
   def __createVideoDescription(self, urlGenerator, timeStamps):
-    description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. If you own a clip we have used and would not like your content to be used by us, contact us and we will prevent it from happening again. Thank you to all the streamers on Twitch who made this possible. \nHere are links to all the clips we've used: \n"
+    description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. If you own a clip we have used and would not like your content to be used by us, contact us and we will prevent it from happening again. Thank you to all the streamers on Twitch who made this possible. \n\nHere are links to all the clips we've used: \n"
     count = 0
     for i in range (len(urlGenerator.clipLinks)):
       minutes = round(timeStamps[count]/60)
@@ -174,7 +175,7 @@ class YoutubeAPICommands:
 
       description += ("[" + str(minutes) + ":" + secondsString + "] " "\"" + urlGenerator.clipTitles[i] + "\" Content by Twitch streamer \"" + urlGenerator.clipUsers[i].capitalize() + "\" at " + urlGenerator.clipLinks[i] + "\n")
       count+=1
-    description += "This channel is fully automated, from creating the videos to the description you are reading right now. The entire process is controlled by our code. Special thanks to Gloomshot for the inspiration.\n\n"
+    description += "\nThis channel is fully automated, from creating the videos to the description you are reading right now. The entire process is controlled by our code. Special thanks to Gloomshot for the inspiration.\n\n"
     description += "INTRO AND OUTRO \nCredit to tiziano12122 for our into template at https://panzoid.com/creations/335902 \nCredit to KrissirK for our outro template at https://panzoid.com/creations/334842\n\n"
     description += "MUSIC LINKS \nintro: https://youtu.be/QF08nvtHHCY \noutro: https://youtu.be/tHP9cOnS1nQ"
     return description
@@ -202,7 +203,7 @@ class YoutubeAPICommands:
     try:
       print("Video description: \n" + description + "\n\n")
       self.__initializeUpload(youtube, args)
-      self.__uploadThumbnail(videoPath)
+      self.__uploadThumbnail(videoPath, youtube)
       episodeNumberFile.close()
       episodeNumberFile = open("EpisodeNumber.txt", "w")
       episodeNumberFile.write(str(episodeNumber+1))
