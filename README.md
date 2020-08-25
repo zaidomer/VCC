@@ -62,7 +62,10 @@ pip3 install --upgrade oauth2client
 ```
 ```
 pip install opencv-python
-``
+```
+```
+pip install google-auth-oauthlib
+```
 Install FFmpeg and follow https://github.com/elmoiv/redvid
 
 ### Installing
