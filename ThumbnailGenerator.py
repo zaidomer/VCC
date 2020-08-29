@@ -13,7 +13,7 @@ class ThumbnailGenerator:
     def __init__(self):
         print("Starting thumbnail generation...")
 
-    def createThumbnail(self, thumbnailTitle):
+    def createThumbnail(self, thumbnailTitle, urlGenerator):
         #Open base images
         checkuser = getpass.getuser()
         baseImage = Image.open("C:/Users/"+checkuser+"/Documents/VCC/Today\'s Clips/Thumbnail.png")
@@ -22,13 +22,36 @@ class ThumbnailGenerator:
         baseImageWidth, baseImageHeight = baseImageCopy.size
 
         #Add Secondary image on thumbnail (either map or rank)
+        mapName = False
+        rank = False
+        for i in range (len(urlGenerator.clipTitles)):
+            for j in range(len(ThumbnailGenerator.maps)):
+                if ThumbnailGenerator.maps[j].upper() in urlGenerator.clipTitles[i].upper() and mapName==False:
+                    mapName = True
+                    selectedMap = ThumbnailGenerator.maps[j]
+            if mapName == False:
+                for j in range(len(ThumbnailGenerator.ranks)):
+                    if ThumbnailGenerator.ranks[j].upper() in urlGenerator.clipTitles[i].upper() and rank==False:
+                        rank = True
+                        selectedRank = ThumbnailGenerator.ranks[j]
         secondaryImageSelect = random.randint(0,1)
-        if secondaryImageSelect == 0:
+
+        if mapName:
+            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\maps\\" + selectedMap + ".png")
+            secondaryImageWidth, secondaryImageHeight = secondaryImage.size
+            resizedSecondaryImage = secondaryImage.resize((int(secondaryImageWidth*0.70), int(secondaryImageHeight*0.70)))
+            resizedSecondaryImageWidth, resizedSecondaryImageHeight = resizedSecondaryImage.size
+            baseImageCopy.paste(resizedSecondaryImage, (15, baseImageHeight-resizedSecondaryImageHeight-15), resizedSecondaryImage.convert('RGBA'))
+        elif rank:
+            secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\ranks\\" + selectedRank + ".png")
+            secondaryImageWidth, secondaryImageHeight = secondaryImage.size
+            rotatedSecondaryImage = secondaryImage.rotate(10)
+            baseImageCopy.paste(rotatedSecondaryImage, (15, int((baseImageHeight-secondaryImageHeight)/2)), rotatedSecondaryImage.convert('RGBA'))
+        elif secondaryImageSelect == 0:
             secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\maps\\" + ThumbnailGenerator.maps[random.randint(0,(len(ThumbnailGenerator.maps)-1))] + ".png")
             secondaryImageWidth, secondaryImageHeight = secondaryImage.size
             resizedSecondaryImage = secondaryImage.resize((int(secondaryImageWidth*0.70), int(secondaryImageHeight*0.70)))
             resizedSecondaryImageWidth, resizedSecondaryImageHeight = resizedSecondaryImage.size
-            #baseImageCopy.paste(resizedSecondaryImage, (15, int((baseImageHeight-resizedSecondaryImageHeight)/2)), resizedSecondaryImage.convert('RGBA'))
             baseImageCopy.paste(resizedSecondaryImage, (15, baseImageHeight-resizedSecondaryImageHeight-15), resizedSecondaryImage.convert('RGBA'))
         else:
             secondaryImage = Image.open(os.getcwd() + "\\ThumbnailResources\\ranks\\" + ThumbnailGenerator.ranks[random.randint(0,(len(ThumbnailGenerator.ranks)-1))] + ".png")

@@ -119,16 +119,16 @@ def main():
     print(thumbnailTitle)
 
     generateThumbnail = ThumbnailGenerator()
-    generateThumbnail.createThumbnail(thumbnailTitle)
+    generateThumbnail.createThumbnail(thumbnailTitle, generateURL)
 
-    mergeAdd = MergeAdder(updatedTitles)
-    mergeAdd.merger()
+    # mergeAdd = MergeAdder(updatedTitles)
+    # mergeAdd.merger()
 
-    checkRep.writeNewClips(updatedTitles)
-    print(timeStamps)
+    # checkRep.writeNewClips(updatedTitles)
+    # print(timeStamps)
 
-    videoUploader = YoutubeAPICommands()
-    videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
+    # videoUploader = YoutubeAPICommands()
+    # videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
 if __name__ == "__main__":
     main()
