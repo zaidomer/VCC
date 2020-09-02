@@ -60,7 +60,17 @@ class ThumbnailGenerator:
             baseImageCopy.paste(rotatedSecondaryImage, (15, int((baseImageHeight-secondaryImageHeight)/2)), rotatedSecondaryImage.convert('RGBA'))
 
         #Add character
-        characterImage = Image.open(os.getcwd() + "\\ThumbnailResources\\characters\\" + ThumbnailGenerator.characterNames[random.randint(0,(len(ThumbnailGenerator.characterNames)-1))] + ".png")
+        characterName = False
+        for i in range (len(urlGenerator.clipTitles)):
+            for j in range(len(ThumbnailGenerator.characterNames)):
+                if ThumbnailGenerator.characterNames[j].upper() in urlGenerator.clipTitles[i].upper() and characterName==False:
+                    characterName = True
+                    selectedCharacter = ThumbnailGenerator.characterNames[j]
+
+        if characterName:
+            characterImage = Image.open(os.getcwd() + "\\ThumbnailResources\\characters\\" + selectedCharacter + ".png")
+        else:
+            characterImage = Image.open(os.getcwd() + "\\ThumbnailResources\\characters\\" + ThumbnailGenerator.characterNames[random.randint(0,(len(ThumbnailGenerator.characterNames)-1))] + ".png")
         characterImageWidth, characterImageHeight = characterImage.size
         baseImageCopy.paste(characterImage, (int(baseImageWidth-characterImageWidth), int(0)), characterImage.convert('RGBA'))
 
@@ -78,8 +88,8 @@ class ThumbnailGenerator:
 
         #Add text
         draw = ImageDraw.Draw(baseImageCopy)
-        font = ImageFont.truetype("MegaSans1.ttf", 125)
-        draw.text((50,60), thumbnailTitle.lower(), (111,255,255), font=font)
+        font = ImageFont.truetype("Calibri Regular.ttf", 125)
+        draw.text((50,60), thumbnailTitle.upper(), (111,255,255), font=font)
 
         #Save Thumbnail
         print("Saving Thumbnail...")
