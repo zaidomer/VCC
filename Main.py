@@ -1,5 +1,6 @@
 import os
 import getpass
+import time
 from WebScrapeURL import ScrapeRT
 from datetime import datetime
 from ClipDownloaderTwitch import DownTwitch
@@ -138,9 +139,10 @@ def main():
 
 if __name__ == "__main__":
 
+    startTime = "4:45"
     while True:
-        startTime = "4:45"
         now = datetime.now()
         currentTime = now.strftime("%H:%M")
         if currentTime == startTime:
             main()
+        time.sleep(55)
