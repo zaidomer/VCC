@@ -1,6 +1,7 @@
 import os
 import getpass
 from WebScrapeURL import ScrapeRT
+from datetime import datetime
 from ClipDownloaderTwitch import DownTwitch
 from VideoMentions import VideoMent
 from MentionAdder import MentAdder
@@ -130,5 +131,15 @@ def main():
     videoUploader = YoutubeAPICommands()
     videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
+    now = datetime.now()
+    currentTime = now.strftime("%H:%M")
+    print("Video Process Completed at " + currentTime + ". Going back to idle mode...")
+
 if __name__ == "__main__":
-    main()
+
+    while True:
+        startTime = "4:45"
+        now = datetime.now()
+        currentTime = now.strftime("%H:%M")
+        if currentTime == startTime:
+            main()
