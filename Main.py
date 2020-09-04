@@ -131,6 +131,7 @@ def main():
     videoUploader = YoutubeAPICommands()
     videoUploader.uploadVideo(videoPath, generateURL, timeStamps)
 
+    #end time
     now = datetime.now()
     currentTime = now.strftime("%H:%M")
     print("Video Process Completed at " + currentTime + ". Going back to idle mode...")
