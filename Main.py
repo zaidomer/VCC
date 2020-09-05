@@ -140,6 +140,7 @@ def main():
 if __name__ == "__main__":
 
     startTime = "4:45"
+    print("Program started, currently on idle. Will start video process at " + startTime + "...")
     while True:
         now = datetime.now()
         currentTime = now.strftime("%H:%M")
