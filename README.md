@@ -56,27 +56,23 @@ Install FFmpeg and follow https://github.com/elmoiv/redvid
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The code will display which function is currently being ran in order:
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+* Reset Folders
+* Scrape Clip information
+* Download Clips
+* Create channel mention
+* Add Mention to Clips
+* Create timestamps
+* Generate a title
+* Generate a thumbnail
+* Merge clips together
+* Upload to YouTube
+* Repeat
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+This was launched 8/8/20 as version 1.0. We had a few errors with repetition and resolution and version 1.1 is the current one that went live on 8/9/20
 
 ## Built With
 
