@@ -8,10 +8,9 @@ This will create folders to store the data, and it will use chromedriver.exe to 
 
 ### Prerequisites
 
-Libraries (Braullio):
-
-
 Libraries:
+
+Libraries (Braullio):
 
 ```
 pip install os
