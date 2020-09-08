@@ -83,6 +83,7 @@ This was launched 8/8/20 as version 1.0. We had a few errors with repetition and
 ## Contributing
 
 [Braulio Carrion Corveira](https://github.com/Carr-23)
+
 [Zaid Omer](https://github.com/zaidomer)
 
 ## Versioning
