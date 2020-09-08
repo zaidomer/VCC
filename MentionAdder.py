@@ -17,7 +17,8 @@ class MentAdder:
     def mentionAdder(self):
 
         checkuser = getpass.getuser()
-        video1 = mp.VideoFileClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.mp4')
+        video2 = mp.VideoFileClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.mp4')
+        video1 = video2.resize(height=1080)
         video = video1.fx(afx.audio_normalize).fx(afx.volumex, 0.6)
 
         ment = (mp.ImageClip('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + '.png')
@@ -29,7 +30,7 @@ class MentAdder:
         ment = vfx.fadeout(ment,1,final_color=[255,255,255])
 
         final = mp.CompositeVideoClip([video, ment])
-        final.write_videofile('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + 'Final.mp4',threads=4, bitrate="20000k",fps=30)
+        final.write_videofile('C:/Users/'+checkuser+'/Documents/VCC/Today\'s Clips/' + self.title + 'Final.mp4',threads=3,fps=30)
         final.close()
 
     def getDuration(self,clipTitle):

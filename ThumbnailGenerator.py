@@ -5,7 +5,7 @@ import random
 import os
 
 class ThumbnailGenerator:
-    
+
     characterNames = ["breach", "brimstone", "cypher", "jet", "omen", "phoenix", "raze", "reyna", "sage", "sova", "viper"]
     maps = ["ascent", "bind", "haven", "split"]
     ranks = ["diamond", "immortal", "platinum", "radiant"]

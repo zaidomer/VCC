@@ -6,6 +6,9 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from time import sleep
 import getpass
+from selenium.webdriver.common.keys import Keys
+import requests
+import json
 
 class ScrapeRT:
     clipLinks = []
@@ -13,11 +16,11 @@ class ScrapeRT:
     clipUsers = []
     clipAmnt = None
 
-    def __init__(self, num):
-        self.clipAmnt = num
+    def __init__(self):
         self.clipLinks = []
         self.clipTitles = []
         self.clipUsers = []
+        self.clipLength = []
 
         if getpass.getuser()=="zaid":
             self.cDriveLocation = "C:/Users/" + getpass.getuser() + "l"
@@ -42,62 +45,41 @@ class ScrapeRT:
     # region TWITCH
 
     def twitchScrape(self):
-        # Chromedriver must be installed
-        if getpass.getuser() == "zaidl":
-            driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
-        else:
-            driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
+        data = ' '
+        count = 0
+        while len(str(data))<300:
+            response = requests.post('https://gql.twitch.tv/gql', data='[{"operationName":"ClipsCards__Game","variables":{"gameName":"VALORANT","limit":100,"criteria":{"languages":["EN"],"filter":"LAST_DAY"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"0d8d0eba9fc7ef77de54a7d933998e21ad7a1274c867ec565ac14ffdce77b1f9"}}}]',headers={'Client-ID':'kimne78kx3ncx6brgo4mv6wki5h1ko','User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'})
+            data = json.loads(response.text)
+            sleep(count)
+            count+=0.25
 
-        while True:
-            driver.get('https://www.twitch.tv/directory/game/VALORANT/clips?range=24hr')
-            sleep(10)
-            try:
-                element_present = EC.presence_of_element_located((By.ID, 'main'))
-                WebDriverWait(driver,5).until(element_present)
-            except TimeoutException:
-                pass
-            finally:
-                break
+        for x in range(len(data[0]['data']['game']['clips']['edges'])):
+            self.clipUsers.append(data[0]['data']['game']['clips']['edges'][x]['node']['broadcaster']['displayName'])
+            self.clipLinks.append(data[0]['data']['game']['clips']['edges'][x]['node']['url'])
 
-        driver.find_element_by_xpath("//div[@class='tw-align-items-center tw-core-button-icon tw-inline-flex']").click()
-        sleep(2)
-        driver.find_element_by_xpath("//div[@data-language-code='en']").click()
-        sleep(3)
+            #Reformat Title
+            titleToAdd = repr(data[0]['data']['game']['clips']['edges'][x]['node']['title'])
+            for char in titleToAdd:
+                if char in "/\\\'":
+                    titleToAdd = titleToAdd.replace(char, '')
 
-        # Scrolls until x clips are loaded
-        i = 1
-        while i <= self.clipAmnt:
-            links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
-            titles = driver.find_elements_by_xpath("//h3[@class='tw-ellipsis tw-font-size-5']")
-            users = driver.find_elements_by_xpath("//h3[@data-a-target='preview-card-channel-link']")
-            driver.execute_script('arguments[0].scrollIntoView(true);', titles[len(titles) - 1])
-            i += 20
-            sleep(30)
+            if len(str(x)) >= 2:
+                self.clipTitles.append(titleToAdd + str(x))
+            else:
+                self.clipTitles.append(titleToAdd + '0' + str(x))
 
-        # Finds the list of titles and URLS
-        links = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-image-link']")
-        titles = driver.find_elements_by_xpath("//h3[@class='tw-ellipsis tw-font-size-5']")
-        users = driver.find_elements_by_xpath("//a[@data-a-target='preview-card-channel-link']")
+            self.clipLength.append(data[0]['data']['game']['clips']['edges'][x]['node']['durationSeconds'])
 
-        # Gets all the titles and puts it in a list
-        for title in titles:
-            self.clipTitles.append(title.get_attribute('title'))
-
-        # Gets all the links and puts it in a list
-        for link in links:
-            self.clipLinks.append(link.get_attribute('href'))
-
-        # Gets all the users and puts it in a list
-        for user in users:
-            self.clipUsers.append(user.text)
-
-        driver.close()
-        self.twitchFilter(self.clipLinks, self.clipTitles,self.clipUsers)
-
+        self.twitchFilter(self.clipLinks, self.clipTitles,self.clipUsers,self.clipLength)
+        print(self.clipLinks[0])
     # endregion
 
     # region Filter
-    def twitchFilter(self, clipLinks, clipTitles,clipUsers):
+    def twitchFilter(self, clipLinks, clipTitles,clipUsers,clipLength):
+        tempLinks = []
+        tempTitles = []
+        tempUsers = []
+        tempLength = []
         # Open and reads the text file and puts each term in a list
         with open('filterTags.txt', "r") as f:
             filterList = f.readlines()
@@ -107,18 +89,38 @@ class ScrapeRT:
 
         count = 0
         for cTitle in clipTitles:
-            if any((" " + x.lower() + " ") in cTitle.lower() for x in filterList) \
-                    or any((" " + x.lower()) in cTitle.lower() for x in filterList) \
-                    or any((x.lower() + " ") in cTitle.lower() for x in filterList):
+            if any(x.lower() in cTitle.lower() for x in filterList):
                 pass
             else:
+                tempLinks.append(clipLinks[count])
+                tempTitles.append(clipTitles[count])
+                tempUsers.append(clipUsers[count])
+                tempLength.append(clipLength[count])
+
                 clipTi.pop(count)
                 clipLinks.pop(count)
                 clipUsers.pop(count)
+                clipLength.pop(count)
                 count -= 1
             count += 1
 
+
+        # So we can choose how many clips go through
         self.clipTitles = clipTi[:]
         self.clipLinks = clipLinks[:]
         self.clipUsers = clipUsers[:]
+        self.clipLength = clipLength[:]
+
+        currentLength = 0
+        for length in clipLength:
+            currentLength += length
+
+        count = 0
+        while currentLength<600:
+            self.clipTitles.append(tempTitles[count])
+            self.clipLinks.append(tempLinks[count])
+            self.clipUsers.append(tempUsers[count])
+            self.clipLength.append(tempLength[count])
+            currentLength+=tempLength[count]
+            count+=1
     # endregion

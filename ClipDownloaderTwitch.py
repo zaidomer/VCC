@@ -32,7 +32,7 @@ class DownTwitch:
         if getpass.getuser() == "zaidl":
             driver = webdriver.Chrome(self.cDriveLocation + "/Documents/chromedriver/chromedriver")
         else:
-            driver = webdriver.Chrome('C:\\Users\\braul\\OneDrive\\Desktop\\chromedriver.exe')
+            driver = webdriver.Chrome('C:\\Users\\' + getpass.getuser() + '\\Documents\\chromedriver.exe')
 
         while True:
             driver.get(self.url)
@@ -45,7 +45,7 @@ class DownTwitch:
             finally:
                 break
 
-        downLink = driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div/main/div[2]/div[3]/div/div/div[2]/div/div[2]/div/video')
+        downLink = driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div[3]/div/div/main/div/div/div[2]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/video')
         self.downloadFile(downLink.get_attribute("src"))
         driver.close()
 
@@ -60,6 +60,11 @@ class DownTwitch:
 
     def downloadFirstThumbnail(self,firstVid):
         checkuser = getpass.getuser()
+
+        for char in firstVid:
+            if char in "<>:\"/\\|?*":
+                firstVid = firstVid.replace(char, '')
+
         vidcap = cv2.VideoCapture('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/' + firstVid + '.mp4')
         success,image = vidcap.read()
         cv2.imwrite('C:/Users/' + checkuser + '/Documents/VCC/Today\'s Clips/Thumbnail.png', image)

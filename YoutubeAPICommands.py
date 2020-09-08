@@ -7,6 +7,7 @@ import time
 import sys
 import googleapiclient.discovery
 import googleapiclient.errors
+import math
 
 # import videoDetails
 
@@ -20,9 +21,9 @@ from oauth2client.tools import argparser, run_flow
 from oauth2client.client import flow_from_clientsecrets
 from googleapiclient.http import MediaFileUpload
 
-from oauth2client import client 
-from oauth2client import tools 
-from oauth2client.file import Storage 
+from oauth2client import client
+from oauth2client import tools
+from oauth2client.file import Storage
 
 class YoutubeAPICommands:
   # Explicitly tell the underlying HTTP transport library not to retry, since
@@ -152,7 +153,7 @@ class YoutubeAPICommands:
 
     request = youtubeAuthenticator.thumbnails().set(
         videoId=YoutubeAPICommands.VIDEO_ID,
-        
+
         # TODO: For this request to work, you must replace "YOUR_FILE"
         #       with a pointer to the actual file you are uploading.
         media_body=MediaFileUpload(videoPath + "/VCC/Today\'s Upload/FinalThumbnail.png")
@@ -162,27 +163,31 @@ class YoutubeAPICommands:
     print(response)
     print("\nThumbnail Uploaded!")
 
-  def __createVideoDescription(self, urlGenerator, timeStamps):
+  def __createVideoDescription(self, urlGenerator, timeStamps,newList):
     description = "Thank you for watching! Our videos wouldn't be possible without the clips we used. If you own a clip we have used and would not like your content to be used by us, contact us and we will prevent it from happening again. Thank you to all the streamers on Twitch who made this possible. \n\nHere are links to all the clips we've used: \n"
     count = 0
-    for i in range (len(urlGenerator.clipLinks)):
-      minutes = round(timeStamps[count]/60)
+    for i in range (len(newList)):
+      minutes = math.floor(timeStamps[count]/60)
       seconds = round(timeStamps[count]%60)
+
+      if seconds >= 60:
+          minutes = minutes + 1
+          seconds = 0
       secondsString = str(seconds)
 
       if len(secondsString) < 2:
         secondsString = "0" + secondsString
 
-      description += ("[" + str(minutes) + ":" + secondsString + "] " "\"" + urlGenerator.clipTitles[i] + "\" Content by Twitch streamer \"" + urlGenerator.clipUsers[i].capitalize() + "\" at " + urlGenerator.clipLinks[i] + "\n")
+      description += ("[" + str(minutes) + ":" + secondsString + "] " "\"" + urlGenerator.clipTitles[i][0:-2] + "\" Content by Twitch streamer \"" + urlGenerator.clipUsers[i].capitalize() + "\" at " + urlGenerator.clipLinks[i] + "\n")
       count+=1
     description += "\nThis channel is fully automated, from creating the videos to the description you are reading right now. The entire process is controlled by our code. Special thanks to Gloomshot for the inspiration.\n\n"
     description += "INTRO AND OUTRO \nCredit to tiziano12122 for our into template at https://panzoid.com/creations/335902 \nCredit to KrissirK for our outro template at https://panzoid.com/creations/334842\n\n"
-    description += "MUSIC LINKS \nintro: https://youtu.be/QF08nvtHHCY \noutro: https://youtu.be/tHP9cOnS1nQ"
+    description += "MUSIC LINKS \nintro: https://youtu.be/QF08nvtHHCY \noutro: https://youtu.be/tHP9cOnS1nQ \n\nV1.1"
     return description
 
   #This is the only function that should ever need to be used from main
-  def uploadVideo(self, videoPath, urlGenerator, timeStamps):
-    description = self.__createVideoDescription(urlGenerator, timeStamps)
+  def uploadVideo(self, videoPath, urlGenerator, timeStamps, newList):
+    description = self.__createVideoDescription(urlGenerator, timeStamps, newList)
 
     episodeNumberFile = open("EpisodeNumber.txt", "r+")
     episodeNumber = int(episodeNumberFile.read())
