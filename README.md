@@ -5,34 +5,19 @@ Automated YouTube Channel for Valorant Clips
 ## Getting Started
 
 This will create folders to store the data, and it will use chromedriver.exe to have automated control of the webpages
+[Valorant Clip Compilation](https://www.youtube.com/channel/UC5LvIuwCmRVFSEea194HS0A)
 
 ### Prerequisites
 
-Libraries (Braullio):
-
-
 Libraries:
 
-```
-pip install os
-```
-```
-pip install getpass
-```
+Libraries (Braullio):
+
 ```
 pip install selenium
 ```
 ```
 pip install requests
-```
-```
-pip install time
-```
-```
-pip install redvid
-```
-```
-pip install praw
 ```
 ```
 pip install pillow
@@ -62,77 +47,45 @@ pip3 install --upgrade oauth2client
 ```
 ```
 pip install opencv-python
-``
+```
+```
+pip install google-auth-oauthlib
+```
 Install FFmpeg and follow https://github.com/elmoiv/redvid
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+The code will display which function is currently being ran in order:
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+* Reset Folders
+* Scrape Clip information
+* Download Clips
+* Create channel mention
+* Add Mention to Clips
+* Create timestamps
+* Generate a title
+* Generate a thumbnail
+* Merge clips together
+* Upload to YouTube
+* Repeat
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+This was launched 8/8/20 as version 1.0. We had a few errors with repetition and resolution and version 1.1 is the current one that went live on 8/9/20
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Python V3.8.5](https://www.python.org/downloads/) - The language used to code it
+* [Windows Server 2019](https://www.microsoft.com/en-ca/windows-server) - Server ran from the saftey of our home
+
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+[Braulio Carrion Corveira](https://github.com/Carr-23)
+
+[Zaid Omer](https://github.com/zaidomer)
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+Currently on version 1.1
