@@ -1,11 +1,14 @@
 # VCC
 
+[Valorant Clip Compilation](https://www.youtube.com/channel/UC5LvIuwCmRVFSEea194HS0A)
+
 Automated YouTube Channel for Valorant Clips
+![VCC_Showcase](/ThumbnailResources/VCC_showcase.png)
 
 ## Getting Started
 
 This will create folders to store the data, and it will use chromedriver.exe to have automated control of the webpages
-[Valorant Clip Compilation](https://www.youtube.com/channel/UC5LvIuwCmRVFSEea194HS0A)
+
 
 ### Prerequisites
 
